@@ -1,6 +1,7 @@
 typedef Json = Map<String, dynamic>;
 
-String? _string(Object? value) => value is String && value.isNotEmpty ? value : null;
+String? _string(Object? value) =>
+    value is String && value.isNotEmpty ? value : null;
 
 int? _int(Object? value) => value is num ? value.toInt() : null;
 
@@ -14,8 +15,9 @@ List<Json> _objects(Object? value) {
 
 String? artworkAt(String? url, {String size = 't500x500'}) {
   if (url == null || url.isEmpty) return null;
-  final match = RegExp(r'-(large|t\d+x\d+|mini|tiny|small|crop|badge)(\.[a-z]+)$')
-      .firstMatch(url);
+  final match = RegExp(
+    r'-(large|t\d+x\d+|mini|tiny|small|crop|badge)(\.[a-z]+)$',
+  ).firstMatch(url);
   if (match == null) return url;
   return url.replaceRange(match.start, match.end, '-$size${match.group(2)}');
 }
@@ -134,8 +136,11 @@ class Track {
 
   String get artist => user?.username ?? 'Unknown artist';
 
-  String? get imageUrl =>
-      artworkAt(artworkUrl) ?? user?.imageUrl;
+  String? get imageUrl => artworkAt(artworkUrl) ?? user?.imageUrl;
+
+  String? get thumbnailUrl =>
+      artworkAt(artworkUrl, size: 't120x120') ??
+      artworkAt(user?.avatarUrl, size: 't120x120');
 
   bool get isPreview => policy == 'SNIP';
 
@@ -209,11 +214,7 @@ class Playlist {
 }
 
 class Page<T> {
-  const Page({
-    required this.collection,
-    this.nextHref,
-    this.totalResults,
-  });
+  const Page({required this.collection, this.nextHref, this.totalResults});
 
   factory Page.fromJson(Json json, T Function(Json) parse) {
     return Page(

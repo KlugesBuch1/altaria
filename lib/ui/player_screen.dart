@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../app_scope.dart';
+import '../data/models.dart';
 import '../playback/audio_handler.dart';
 import '../theme.dart';
 import 'artwork.dart';
@@ -85,6 +86,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                           const SizedBox(height: 20),
                           _Transport(handler: handler),
+                          const SizedBox(height: 30),
+                          _QueueList(handler: handler),
                         ],
                       ),
                     ),
@@ -265,6 +268,88 @@ class _Transport extends StatelessWidget {
           icon: const Icon(Icons.skip_next_rounded),
         ),
       ],
+    );
+  }
+}
+
+class _QueueList extends StatelessWidget {
+  const _QueueList({required this.handler});
+
+  final AltariaAudioHandler handler;
+
+  @override
+  Widget build(BuildContext context) {
+    final queue = handler.playQueue;
+    final tracks = queue.tracks;
+    final index = queue.index;
+    if (index + 1 >= tracks.length) return const SizedBox.shrink();
+    final style = Theme.of(context).textTheme.labelSmall;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text('UP NEXT', style: style?.copyWith(color: muted)),
+            const Spacer(),
+            Text(
+              '${tracks.length - index - 1}',
+              style: style?.copyWith(color: muted),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        for (var i = index + 1; i < tracks.length; i++)
+          _QueueRow(track: tracks[i], onTap: () => handler.playAt(i)),
+      ],
+    );
+  }
+}
+
+class _QueueRow extends StatelessWidget {
+  const _QueueRow({required this.track, required this.onTap});
+
+  final Track track;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Artwork(url: track.thumbnailUrl, size: 40, radius: 7),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    track.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium?.copyWith(color: bone),
+                  ),
+                  Text(
+                    track.artist,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(color: muted),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              formatDuration(track.duration),
+              style: theme.textTheme.bodySmall?.copyWith(color: muted),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

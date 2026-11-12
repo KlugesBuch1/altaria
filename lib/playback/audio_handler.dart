@@ -12,9 +12,8 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
   AltariaAudioHandler({required this.api}) {
     _player.playbackEventStream.listen(
       (_) => _publishState(),
-      onError: (Object error, StackTrace _) => _report(
-        'Playback failed: $error',
-      ),
+      onError: (Object error, StackTrace _) =>
+          _report('Playback failed: $error'),
     );
     _player.processingStateStream.listen((state) {
       if (state == ProcessingState.completed) unawaited(_advance());
@@ -48,6 +47,12 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
       return;
     }
     playQueue.replace(tracks, startIndex: index);
+    await _loadCurrent(autoPlay: true);
+  }
+
+  Future<void> playAt(int index) async {
+    if (playQueue.isEmpty) return;
+    playQueue.jumpTo(index);
     await _loadCurrent(autoPlay: true);
   }
 
