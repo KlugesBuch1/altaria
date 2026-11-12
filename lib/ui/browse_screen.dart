@@ -61,8 +61,14 @@ class _BrowseScreenState extends State<BrowseScreen> {
 
   Future<void> _play(int index) async {
     final player = _player;
-    if (player == null || _tracks.isEmpty) return;
-    await player.playTracks(_tracks, startIndex: index);
+    if (player == null || index < 0 || index >= _tracks.length) return;
+    final selected = _tracks[index];
+    if (!selected.isPlayable) return;
+    final playable = _tracks
+        .where((track) => track.isPlayable)
+        .toList(growable: false);
+    final start = playable.indexWhere((track) => track.id == selected.id);
+    await player.playTracks(playable, startIndex: start < 0 ? 0 : start);
   }
 
   @override

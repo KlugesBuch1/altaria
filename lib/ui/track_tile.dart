@@ -21,14 +21,18 @@ class TrackTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final unplayable = !track.isPlayable;
     return InkWell(
-      onTap: onTap,
+      onTap: unplayable ? null : onTap,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
           children: [
-            _Artwork(track: track),
+            Opacity(
+              opacity: unplayable ? 0.38 : 1,
+              child: _Artwork(track: track),
+            ),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -39,15 +43,28 @@ class TrackTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight:
-                          isCurrent ? FontWeight.w700 : FontWeight.w500,
-                      color: isCurrent ? frost : bone,
+                      fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w500,
+                      color: unplayable
+                          ? muted
+                          : isCurrent
+                          ? frost
+                          : bone,
                     ),
                   ),
                   const SizedBox(height: 3),
                   Row(
                     children: [
-                      if (track.isPreview) ...[
+                      if (unplayable) ...[
+                        Text(
+                          'NOT STREAMABLE',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: muted,
+                            fontSize: 8,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ] else if (track.isPreview) ...[
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 5,
@@ -79,13 +96,14 @@ class TrackTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        formatDuration(track.duration),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: muted,
-                          fontFeatures: const [FontFeature.tabularFigures()],
+                      if (!unplayable)
+                        Text(
+                          formatDuration(track.duration),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: muted,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ],
@@ -94,8 +112,16 @@ class TrackTile extends StatelessWidget {
             const SizedBox(width: 8),
             trailing ??
                 Icon(
-                  isCurrent ? Icons.graphic_eq_rounded : Icons.play_arrow_rounded,
-                  color: isCurrent ? frost : muted,
+                  unplayable
+                      ? Icons.block_rounded
+                      : isCurrent
+                      ? Icons.graphic_eq_rounded
+                      : Icons.play_arrow_rounded,
+                  color: unplayable
+                      ? muted.withValues(alpha: 0.5)
+                      : isCurrent
+                      ? frost
+                      : muted,
                   size: 22,
                 ),
           ],
