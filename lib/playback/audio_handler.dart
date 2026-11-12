@@ -176,7 +176,7 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
   }
 
   MediaItem _itemFor(Track track) {
-    final artwork = track.artworkUrl;
+    final artwork = track.imageUrl;
     return MediaItem(
       id: '${track.id}',
       album: 'SoundCloud',
