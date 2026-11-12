@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
+import 'package:material_ui/material_ui.dart' hide Page;
 
 import '../app_scope.dart';
 import '../data/models.dart';
@@ -20,16 +20,25 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
+  final _scroll = ScrollController();
   Timer? _debounce;
 
   SoundCloudClient? _api;
   AltariaAudioHandler? _player;
 
   List<Track> _tracks = const [];
+  Page<Track>? _page;
   String _query = '';
   String? _error;
   bool _searching = false;
+  bool _loadingMore = false;
   int _generation = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_onScroll);
+  }
 
   @override
   void didChangeDependencies() {
@@ -44,7 +53,16 @@ class _SearchScreenState extends State<SearchScreen> {
     _debounce?.cancel();
     _controller.dispose();
     _focus.dispose();
+    _scroll.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scroll.hasClients) return;
+    final position = _scroll.position;
+    if (position.pixels >= position.maxScrollExtent - 500) {
+      _loadMore();
+    }
   }
 
   void _onChanged(String value) {
@@ -54,8 +72,10 @@ class _SearchScreenState extends State<SearchScreen> {
       setState(() {
         _query = '';
         _tracks = const [];
+        _page = null;
         _error = null;
         _searching = false;
+        _loadingMore = false;
       });
       return;
     }
@@ -68,8 +88,11 @@ class _SearchScreenState extends State<SearchScreen> {
     final generation = ++_generation;
     setState(() {
       _query = query;
+      _tracks = const [];
+      _page = null;
       _searching = true;
       _error = null;
+      _loadingMore = false;
     });
     _focus.unfocus();
     try {
@@ -77,6 +100,7 @@ class _SearchScreenState extends State<SearchScreen> {
       if (!mounted || generation != _generation) return;
       setState(() {
         _tracks = page.collection;
+        _page = page;
         _searching = false;
       });
     } catch (error) {
@@ -85,6 +109,44 @@ class _SearchScreenState extends State<SearchScreen> {
         _error = _friendlyError(error);
         _searching = false;
       });
+    }
+  }
+
+  Future<void> _loadMore() async {
+    final api = _api;
+    final page = _page;
+    if (api == null ||
+        page == null ||
+        page.nextHref == null ||
+        _loadingMore ||
+        _searching) {
+      return;
+    }
+    final generation = _generation;
+    setState(() => _loadingMore = true);
+    try {
+      final next = await api.nextPage(page, Track.fromJson);
+      if (!mounted || generation != _generation) return;
+      if (next == null) {
+        setState(() => _loadingMore = false);
+        return;
+      }
+      final seen = _tracks.map((track) => track.id).toSet();
+      final merged = [
+        ..._tracks,
+        ...next.collection.where((track) => seen.add(track.id)),
+      ];
+      setState(() {
+        _tracks = merged;
+        _page = next;
+        _loadingMore = false;
+      });
+    } catch (_) {
+      if (!mounted || generation != _generation) return;
+      setState(() => _loadingMore = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not load more tracks.')),
+      );
     }
   }
 
@@ -138,6 +200,15 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           const SizedBox(height: 18),
+          if (_tracks.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(
+                '${_tracks.length} RESULTS',
+                style: Theme.of(context).textTheme.labelSmall
+                    ?.copyWith(color: muted),
+              ),
+            ),
           Expanded(child: _body(hasText)),
         ],
       ),
@@ -158,15 +229,29 @@ class _SearchScreenState extends State<SearchScreen> {
       return _EmptyState(query: _query);
     }
     return ListView.builder(
+      controller: _scroll,
       padding: const EdgeInsets.only(bottom: 120),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      itemCount: _tracks.length,
+      itemCount: _tracks.length + 1,
       itemBuilder: (context, index) {
+        if (index == _tracks.length) {
+          if (_page?.nextHref == null) {
+            return const SizedBox(height: 28);
+          }
+          if (!_loadingMore) return const SizedBox(height: 28);
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+          );
+        }
         final track = _tracks[index];
-        return TrackTile(
-          track: track,
-          onTap: () => _play(index),
-        );
+        return TrackTile(track: track, onTap: () => _play(index));
       },
     );
   }
@@ -193,7 +278,11 @@ class _SearchIntro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          Icon(Icons.graphic_eq_rounded, size: 38, color: frost.withValues(alpha: 0.7)),
+          Icon(
+            Icons.graphic_eq_rounded,
+            size: 38,
+            color: frost.withValues(alpha: 0.7),
+          ),
           const SizedBox(height: 18),
           Text(
             'Find something\nto keep.',
@@ -252,10 +341,7 @@ class _EmptyState extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Try a shorter search.',
-            style: TextStyle(color: muted),
-          ),
+          const Text('Try a shorter search.', style: TextStyle(color: muted)),
         ],
       ),
     );
