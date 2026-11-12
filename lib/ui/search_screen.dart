@@ -236,6 +236,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final hasText = _controller.text.trim().isNotEmpty;
+    final count = _resultCount;
+    final resultLabel = '$count ${count == 1 ? 'RESULT' : 'RESULTS'}';
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
       child: Column(
@@ -300,7 +302,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
-                '$_resultCount RESULTS',
+                resultLabel,
                 style: Theme.of(context).textTheme.labelSmall
                     ?.copyWith(color: muted),
               ),

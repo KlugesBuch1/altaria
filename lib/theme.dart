@@ -74,9 +74,22 @@ ThemeData buildAltariaTheme() {
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: panel,
       surfaceTintColor: Colors.transparent,
-      indicatorColor: frost.withValues(alpha: 0.12),
+      indicatorColor: frost.withValues(alpha: 0.14),
       height: 64,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return IconThemeData(color: selected ? frost : muted, size: 24);
+      }),
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return TextStyle(
+          color: selected ? bone : muted,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.2,
+        );
+      }),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

@@ -282,7 +282,8 @@ class _QueueList extends StatelessWidget {
     final queue = handler.playQueue;
     final tracks = queue.tracks;
     final index = queue.index;
-    if (index + 1 >= tracks.length) return const SizedBox.shrink();
+    final remaining = tracks.length - index - 1;
+    if (remaining <= 0) return const SizedBox.shrink();
     final style = Theme.of(context).textTheme.labelSmall;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,7 +293,7 @@ class _QueueList extends StatelessWidget {
             Text('UP NEXT', style: style?.copyWith(color: muted)),
             const Spacer(),
             Text(
-              '${tracks.length - index - 1}',
+              '$remaining ${remaining == 1 ? 'TRACK' : 'TRACKS'}',
               style: style?.copyWith(color: muted),
             ),
           ],
