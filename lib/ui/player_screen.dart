@@ -84,7 +84,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             },
                           ),
                           const SizedBox(height: 20),
-                          _PlayButton(handler: handler),
+                          _Transport(handler: handler),
                         ],
                       ),
                     ),
@@ -233,6 +233,38 @@ class _Cover extends StatelessWidget {
         ],
       ),
       child: Artwork(url: url, size: size, radius: 20),
+    );
+  }
+}
+
+class _Transport extends StatelessWidget {
+  const _Transport({required this.handler});
+
+  final AltariaAudioHandler handler;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          tooltip: 'Previous',
+          onPressed: handler.skipToPrevious,
+          iconSize: 38,
+          color: bone,
+          icon: const Icon(Icons.skip_previous_rounded),
+        ),
+        const SizedBox(width: 28),
+        _PlayButton(handler: handler),
+        const SizedBox(width: 28),
+        IconButton(
+          tooltip: 'Next',
+          onPressed: handler.skipToNext,
+          iconSize: 38,
+          color: bone,
+          icon: const Icon(Icons.skip_next_rounded),
+        ),
+      ],
     );
   }
 }
