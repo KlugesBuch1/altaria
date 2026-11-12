@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 
+import '../app_scope.dart';
 import '../theme.dart';
+import 'mini_player.dart';
 import 'search_screen.dart';
 
 class HomeShell extends StatefulWidget {
@@ -12,6 +16,24 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> {
   int _tab = 0;
+  StreamSubscription<String>? _errors;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _errors ??= AppScope.of(context).player.errors.listen((message) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(message)));
+    });
+  }
+
+  @override
+  void dispose() {
+    _errors?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +45,24 @@ class _HomeShellState extends State<HomeShell> {
           children: const [SearchScreen(), _BrowsePlaceholder()],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _tab,
-        onDestinationSelected: (index) => setState(() => _tab = index),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.search_rounded),
-            label: 'Search',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore_rounded),
-            label: 'Browse',
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const MiniPlayer(),
+          NavigationBar(
+            selectedIndex: _tab,
+            onDestinationSelected: (index) => setState(() => _tab = index),
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.search_rounded),
+                label: 'Search',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.explore_outlined),
+                selectedIcon: Icon(Icons.explore_rounded),
+                label: 'Browse',
+              ),
+            ],
           ),
         ],
       ),
