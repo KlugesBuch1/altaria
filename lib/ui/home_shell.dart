@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 
 import '../app_scope.dart';
-import '../theme.dart';
+import 'browse_screen.dart';
 import 'mini_player.dart';
 import 'search_screen.dart';
 
@@ -42,7 +42,7 @@ class _HomeShellState extends State<HomeShell> {
         bottom: false,
         child: IndexedStack(
           index: _tab,
-          children: const [SearchScreen(), _BrowsePlaceholder()],
+          children: const [SearchScreen(), BrowseScreen()],
         ),
       ),
       bottomNavigationBar: Column(
@@ -66,17 +66,6 @@ class _HomeShellState extends State<HomeShell> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _BrowsePlaceholder extends StatelessWidget {
-  const _BrowsePlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Browse', style: TextStyle(color: muted)),
     );
   }
 }
