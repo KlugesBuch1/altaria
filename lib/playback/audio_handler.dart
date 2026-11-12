@@ -22,7 +22,12 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
   }
 
   final SoundCloudClient api;
-  final AudioPlayer _player = AudioPlayer();
+  final AudioPlayer _player = AudioPlayer(
+    // Pauses for calls and headphone unplug, then resumes after a transient loss.
+    handleInterruptions: true,
+    androidApplyAudioAttributes: true,
+    handleAudioSessionActivation: true,
+  );
   final Queue playQueue = Queue();
   final _errors = StreamController<String>.broadcast();
 
