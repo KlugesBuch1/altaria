@@ -9,6 +9,9 @@ const wine = Color(0xFF5A1414);
 const rose = Color(0xFFC88C80);
 const cream = Color(0xFFEADFD3);
 const muted = Color(0xFFB7A69B);
+const frost = Color(0xFFA8C0B8);
+const ember = Color(0xFFDF8B66);
+const hairline = Color(0xFF3A2521);
 
 ThemeData buildAltariaTheme() {
   const scheme = ColorScheme(

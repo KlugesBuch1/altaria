@@ -12,7 +12,6 @@ import 'playlist_screen.dart';
 import 'result_tiles.dart';
 import 'track_tile.dart';
 import 'user_screen.dart';
-import 'wordmark.dart';
 
 enum SearchKind { tracks, playlists, people }
 
@@ -240,12 +239,10 @@ class _SearchScreenState extends State<SearchScreen> {
     final count = _resultCount;
     final resultLabel = '$count ${count == 1 ? 'RESULT' : 'RESULTS'}';
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Wordmark(),
-          const SizedBox(height: 18),
           TextField(
             controller: _controller,
             focusNode: _focus,

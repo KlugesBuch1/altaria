@@ -7,7 +7,6 @@ import '../playback/audio_handler.dart';
 import '../theme.dart';
 import 'current_track.dart';
 import 'track_tile.dart';
-import 'wordmark.dart';
 
 class BrowseScreen extends StatefulWidget {
   const BrowseScreen({super.key});
@@ -75,12 +74,10 @@ class _BrowseScreenState extends State<BrowseScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Wordmark(),
-          const SizedBox(height: 24),
           Text(
             'Trending now',
             style: Theme.of(context).textTheme.displaySmall
