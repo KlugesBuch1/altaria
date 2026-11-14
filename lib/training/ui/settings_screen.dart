@@ -174,21 +174,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
     if (!confirmed || !mounted) return;
     await _run(() async {
-      final picked = await FilePicker.platform.pickFiles(
+      final file = await FilePicker.pickFile(
         type: FileType.custom,
         allowedExtensions: const ['json'],
-        withData: true,
       );
-      if (picked == null || picked.files.isEmpty) return;
-      final file = picked.files.single;
-      String content;
-      if (file.path != null) {
-        content = await File(file.path!).readAsString();
-      } else if (file.bytes != null) {
-        content = utf8.decode(file.bytes!);
-      } else {
-        throw const FormatException('The file could not be read.');
-      }
+      if (file == null) return;
+      final content = utf8.decode(await file.readAsBytes());
       if (!mounted) return;
       await TrainingScope.of(context).importBackup(content);
       if (!mounted) return;
@@ -241,10 +232,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final origin = renderBox == null
         ? null
         : renderBox.localToGlobal(Offset.zero) & renderBox.size;
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      subject: subject,
-      sharePositionOrigin: origin,
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path)],
+        subject: subject,
+        sharePositionOrigin: origin,
+      ),
     );
   }
 
@@ -372,11 +365,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ? 'Uses a separate notification channel from music.'
                         : permission
                         ? 'Allowed. Uses a separate channel from music.'
-                        : 'Blocked in system settings. The in-app timer still works.',
+                        : 'Not allowed yet. The in-app timer still works.',
                     style: Theme.of(context).textTheme.bodySmall
                         ?.copyWith(color: permission == false ? rose : muted),
                   ),
-                  value: settings.restNotifications,
+                  value: settings.restNotifications && permission != false,
                   activeThumbColor: ember,
                   activeTrackColor: wine,
                   onChanged: _notificationBusy ? null : _setNotifications,
@@ -388,11 +381,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: _notificationBusy
                           ? null
                           : () async {
-                              await store.requestNotificationPermission();
+                              final granted = await store
+                                  .requestNotificationPermission();
                               if (!mounted) return;
                               await store.refreshNotificationPermission();
+                              if (granted) await _setNotifications(true);
                             },
-                      child: const Text('Check permission again'),
+                      child: const Text('Allow notifications'),
                     ),
                   ),
                 Text(

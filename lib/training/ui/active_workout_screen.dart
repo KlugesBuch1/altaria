@@ -25,6 +25,7 @@ class ActiveWorkoutScreen extends StatefulWidget {
 class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
   RestTimerController? _rest;
   final Map<int, PreviousPerformance?> _previous = {};
+  Timer? _elapsedTicker;
   bool _initialized = false;
   bool _finishing = false;
   bool _addingExercise = false;
@@ -42,6 +43,9 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
           unawaited(HapticFeedback.mediumImpact().catchError((_) {})),
     );
     unawaited(_loadPrevious());
+    _elapsedTicker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() {});
+    });
     if (store.settings.keepAwake) {
       unawaited(_setKeepAwake(true));
     }
@@ -52,6 +56,7 @@ class _ActiveWorkoutScreenState extends State<ActiveWorkoutScreen> {
 
   @override
   void dispose() {
+    _elapsedTicker?.cancel();
     _rest?.dispose();
     unawaited(_setKeepAwake(false));
     super.dispose();

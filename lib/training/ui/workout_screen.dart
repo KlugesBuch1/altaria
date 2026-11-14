@@ -397,7 +397,7 @@ class _ActiveWorkoutCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '${workout.completedSetCount} sets · '
-            '${formatVolume(workout.totalVolumeKg, unit)} logged',
+            '${formatVolume(workoutVolumeKg(workout), unit)} logged',
             style: Theme.of(context).textTheme.bodySmall
                 ?.copyWith(color: muted),
           ),

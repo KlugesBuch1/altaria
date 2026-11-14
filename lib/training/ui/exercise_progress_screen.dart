@@ -39,7 +39,10 @@ class ExerciseProgressScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
         children: [
-          TrainingTag(label: record.exercise.muscleGroup.label),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TrainingTag(label: record.exercise.muscleGroup.label),
+          ),
           const SizedBox(height: 8),
           Text(
             record.exercise.name,

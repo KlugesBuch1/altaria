@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:math' as math;
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:material_ui/material_ui.dart';
@@ -23,6 +21,7 @@ class ProgressScreen extends StatefulWidget {
 
 class _ProgressScreenState extends State<ProgressScreen> {
   bool _busy = false;
+  bool _showAllRecords = false;
 
   Future<void> _addMeasurement() async {
     final store = TrainingScope.of(context);
@@ -50,17 +49,10 @@ class _ProgressScreenState extends State<ProgressScreen> {
     if (_busy) return;
     setState(() => _busy = true);
     try {
-      final picked = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        withData: true,
-      );
-      if (picked == null || picked.files.isEmpty) return;
-      final file = picked.files.single;
-      Uint8List? bytes = file.bytes;
-      if (bytes == null && file.path != null) {
-        bytes = await File(file.path!).readAsBytes();
-      }
-      if (bytes == null || bytes.isEmpty) {
+      final file = await FilePicker.pickFile(type: FileType.image);
+      if (file == null) return;
+      final bytes = await file.readAsBytes();
+      if (bytes.isEmpty) {
         throw const FormatException('The image could not be read.');
       }
       if (!mounted) return;
@@ -189,13 +181,13 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 Expanded(
                   child: StatCell(
                     value: formatVolume(totalVolume, unit),
-                    label: 'Lifetime volume',
+                    label: 'Volume',
                   ),
                 ),
                 Expanded(
                   child: StatCell(
                     value: '${records.length}',
-                    label: 'Movements',
+                    label: 'Tracked',
                     accent: ember,
                   ),
                 ),
@@ -215,7 +207,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 '1RM, volume and rep records appear here.',
           )
         else
-          for (final record in records.take(6))
+          for (final record in _showAllRecords ? records : records.take(6))
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: _RecordCard(
@@ -224,17 +216,19 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 history: store.history,
               ),
             ),
-        if (records.length > 6) ...[
+        if (records.length > 6)
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              '${records.length - 6} more movements have records. '
-              'Open their workout history to review them.',
-              style: Theme.of(context).textTheme.bodySmall
-                  ?.copyWith(color: muted, height: 1.4),
+            child: TextButton(
+              onPressed: () =>
+                  setState(() => _showAllRecords = !_showAllRecords),
+              child: Text(
+                _showAllRecords
+                    ? 'Show fewer movements'
+                    : 'Show all ${records.length} movements',
+              ),
             ),
           ),
-        ],
         const SizedBox(height: 20),
         TrainingSectionTitle(
           title: 'Body',

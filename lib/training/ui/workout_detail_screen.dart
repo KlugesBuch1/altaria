@@ -160,11 +160,14 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
         children: [
-          TrainingTag(
-            label: formatWeekdayDate(
-              (item.finishedAt ?? item.startedAt).toLocal(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TrainingTag(
+              label: formatWeekdayDate(
+                (item.finishedAt ?? item.startedAt).toLocal(),
+              ),
+              color: frost,
             ),
-            color: frost,
           ),
           const SizedBox(height: 10),
           Text(

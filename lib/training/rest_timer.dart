@@ -93,6 +93,9 @@ class RestTimerController extends ChangeNotifier {
     _running = false;
     _remainingSeconds = 0;
     _endsAt = null;
+    if (notificationsEnabled) {
+      unawaited(notifier.showRestComplete());
+    }
     notifyListeners();
     onFinished?.call();
   }

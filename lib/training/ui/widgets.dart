@@ -143,12 +143,17 @@ class StatCell extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          value,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: accent,
-            height: 1,
-            fontFeatures: const [FontFeature.tabularFigures()],
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            value,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: accent,
+              height: 1,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
           ),
         ),
         const SizedBox(height: 5),

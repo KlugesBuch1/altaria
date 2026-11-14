@@ -14,6 +14,8 @@ abstract interface class RestNotifier {
 
   Future<void> schedule({required DateTime firesAt});
 
+  Future<void> showRestComplete();
+
   Future<void> cancelRest();
 }
 
@@ -186,6 +188,23 @@ class RestNotificationService implements RestNotifier {
   }
 
   @override
+  Future<void> showRestComplete() async {
+    if (!await initialize()) return;
+    await _ensureChannel();
+    try {
+      await _plugin.cancel(restNotificationId);
+      await _plugin.show(
+        restNotificationId,
+        'Rest over',
+        'Start the next set. Music keeps playing.',
+        _details,
+      );
+    } catch (error) {
+      debugPrint('altaria rest alert: $error');
+    }
+  }
+
+  @override
   Future<void> cancelRest() async {
     if (!_initialized) return;
     try {
@@ -202,6 +221,7 @@ class NoopRestNotifier implements RestNotifier {
   bool granted;
   final List<DateTime> scheduled = [];
   int cancellations = 0;
+  int completions = 0;
 
   @override
   Future<void> cancelRest() async {
@@ -220,5 +240,10 @@ class NoopRestNotifier implements RestNotifier {
   @override
   Future<void> schedule({required DateTime firesAt}) async {
     scheduled.add(firesAt);
+  }
+
+  @override
+  Future<void> showRestComplete() async {
+    completions++;
   }
 }

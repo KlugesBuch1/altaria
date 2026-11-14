@@ -247,8 +247,8 @@ class _ViewButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(7),
           onTap: onTap,
           child: SizedBox(
-            width: 40,
-            height: 40,
+            width: 44,
+            height: 44,
             child: Icon(icon, size: 19, color: selected ? cream : muted),
           ),
         ),
