@@ -1,0 +1,1006 @@
+class SeedExercise {
+  const SeedExercise({
+    required this.name,
+    required this.muscleGroup,
+    required this.equipment,
+    required this.cues,
+  });
+
+  final String name;
+  final String muscleGroup;
+  final String equipment;
+  final String cues;
+}
+
+/// Original movement catalogue. Names are common training terms; the cues are
+/// written for altaria.
+const List<SeedExercise> seedExercises = [
+  // Chest
+  SeedExercise(
+    name: 'Barbell bench press',
+    muscleGroup: 'chest',
+    equipment: 'barbell',
+    cues: 'Shoulder blades down, feet planted, bar to mid-chest.',
+  ),
+  SeedExercise(
+    name: 'Incline barbell bench press',
+    muscleGroup: 'chest',
+    equipment: 'barbell',
+    cues: 'Low incline, elbows under the bar, press up and slightly back.',
+  ),
+  SeedExercise(
+    name: 'Decline barbell bench press',
+    muscleGroup: 'chest',
+    equipment: 'barbell',
+    cues: 'Lock the legs in, touch the lower chest, keep the bar path short.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell bench press',
+    muscleGroup: 'chest',
+    equipment: 'dumbbell',
+    cues:
+        'Wrists stacked, lower until the upper arms are level, press together.',
+  ),
+  SeedExercise(
+    name: 'Incline dumbbell press',
+    muscleGroup: 'chest',
+    equipment: 'dumbbell',
+    cues: 'Keep the ribs down and the elbows at forty-five degrees.',
+  ),
+  SeedExercise(
+    name: 'Decline dumbbell press',
+    muscleGroup: 'chest',
+    equipment: 'dumbbell',
+    cues: 'Settle the shoulders, press in a straight line over the chest.',
+  ),
+  SeedExercise(
+    name: 'Flat dumbbell fly',
+    muscleGroup: 'chest',
+    equipment: 'dumbbell',
+    cues: 'Soft elbows, wide arc, stop when the chest stretches.',
+  ),
+  SeedExercise(
+    name: 'Incline dumbbell fly',
+    muscleGroup: 'chest',
+    equipment: 'dumbbell',
+    cues: 'Low bench angle, sweep the weights in, keep the shoulders back.',
+  ),
+  SeedExercise(
+    name: 'Cable chest fly',
+    muscleGroup: 'chest',
+    equipment: 'cable',
+    cues: 'Step forward, press the handles together, control the return.',
+  ),
+  SeedExercise(
+    name: 'Low-to-high cable fly',
+    muscleGroup: 'chest',
+    equipment: 'cable',
+    cues: 'Start low, finish at eye level, keep a small elbow bend.',
+  ),
+  SeedExercise(
+    name: 'Pec deck',
+    muscleGroup: 'chest',
+    equipment: 'machine',
+    cues: 'Set the seat at chest height, squeeze, return slowly.',
+  ),
+  SeedExercise(
+    name: 'Push-up',
+    muscleGroup: 'chest',
+    equipment: 'bodyweight',
+    cues: 'Body in one line, hands under the ribs, press the floor away.',
+  ),
+  SeedExercise(
+    name: 'Wide push-up',
+    muscleGroup: 'chest',
+    equipment: 'bodyweight',
+    cues: 'Hands outside the shoulders, keep the elbows from flaring.',
+  ),
+  SeedExercise(
+    name: 'Decline push-up',
+    muscleGroup: 'chest',
+    equipment: 'bodyweight',
+    cues: 'Feet raised, brace the trunk, lower the chest as one unit.',
+  ),
+  SeedExercise(
+    name: 'Chest dip',
+    muscleGroup: 'chest',
+    equipment: 'bodyweight',
+    cues: 'Lean forward, lower until the upper arms are level, press up.',
+  ),
+  SeedExercise(
+    name: 'Machine chest press',
+    muscleGroup: 'chest',
+    equipment: 'machine',
+    cues:
+        'Line the handles with the mid-chest, press without locking out hard.',
+  ),
+
+  // Back
+  SeedExercise(
+    name: 'Conventional deadlift',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Bar over mid-foot, take the slack out, stand tall.',
+  ),
+  SeedExercise(
+    name: 'Sumo deadlift',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Wide stance, knees out, push the floor apart and stand.',
+  ),
+  SeedExercise(
+    name: 'Rack pull',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Start below the knee, lock the lats, finish with the hips.',
+  ),
+  SeedExercise(
+    name: 'Barbell bent-over row',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Hinge to forty-five degrees, pull toward the navel, lower with control.',
+  ),
+  SeedExercise(
+    name: 'Pendlay row',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Dead stop on the floor, pull fast to the lower ribs.',
+  ),
+  SeedExercise(
+    name: 'One-arm dumbbell row',
+    muscleGroup: 'back',
+    equipment: 'dumbbell',
+    cues: 'Brace on the bench, pull the elbow past the ribs, lower long.',
+  ),
+  SeedExercise(
+    name: 'Chest-supported dumbbell row',
+    muscleGroup: 'back',
+    equipment: 'dumbbell',
+    cues: 'Keep the chest on the pad, row the dumbbells toward the hips.',
+  ),
+  SeedExercise(
+    name: 'T-bar row',
+    muscleGroup: 'back',
+    equipment: 'barbell',
+    cues: 'Chest up, pull to the sternum, let the shoulders travel.',
+  ),
+  SeedExercise(
+    name: 'Seated cable row',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Tall chest, pull the handle to the navel, pause, return.',
+  ),
+  SeedExercise(
+    name: 'Single-arm cable row',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Let the shoulder reach forward, pull the elbow back, keep the hips square.',
+  ),
+  SeedExercise(
+    name: 'Lat pulldown',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Long arms, pull the bar to the collarbone, keep the chest up.',
+  ),
+  SeedExercise(
+    name: 'Neutral-grip lat pulldown',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Elbows down and in, drive the handles to the ribs.',
+  ),
+  SeedExercise(
+    name: 'Pull-up',
+    muscleGroup: 'back',
+    equipment: 'bodyweight',
+    cues: 'Start from straight arms, pull the chest to the bar, lower fully.',
+  ),
+  SeedExercise(
+    name: 'Chin-up',
+    muscleGroup: 'back',
+    equipment: 'bodyweight',
+    cues: 'Underhand grip, elbows toward the ribs, no swing.',
+  ),
+  SeedExercise(
+    name: 'Assisted pull-up',
+    muscleGroup: 'back',
+    equipment: 'machine',
+    cues: 'Use just enough assistance to keep the reps strict.',
+  ),
+  SeedExercise(
+    name: 'Straight-arm pulldown',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Small elbow bend, drive the bar to the thighs, move only the shoulders.',
+  ),
+  SeedExercise(
+    name: 'Face pull',
+    muscleGroup: 'back',
+    equipment: 'cable',
+    cues: 'Pull toward the forehead, split the rope, keep the ribs down.',
+  ),
+  SeedExercise(
+    name: 'Inverted row',
+    muscleGroup: 'back',
+    equipment: 'bodyweight',
+    cues: 'Body rigid, pull the chest to the bar, lower under control.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell pullover',
+    muscleGroup: 'back',
+    equipment: 'dumbbell',
+    cues: 'Long arms, stretch overhead, pull the weight back over the chest.',
+  ),
+  SeedExercise(
+    name: 'Machine row',
+    muscleGroup: 'back',
+    equipment: 'machine',
+    cues: 'Chest against the pad, pull the handles back, pause at the ribs.',
+  ),
+
+  // Shoulders
+  SeedExercise(
+    name: 'Standing overhead press',
+    muscleGroup: 'shoulders',
+    equipment: 'barbell',
+    cues: 'Squeeze the glutes, press past the forehead, finish over the ears.',
+  ),
+  SeedExercise(
+    name: 'Seated barbell press',
+    muscleGroup: 'shoulders',
+    equipment: 'barbell',
+    cues: 'Back supported, elbows slightly forward, press straight up.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell shoulder press',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Wrists over the elbows, press up without arching the lower back.',
+  ),
+  SeedExercise(
+    name: 'Arnold press',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Start palms in, rotate as you press, keep the ribs down.',
+  ),
+  SeedExercise(
+    name: 'Machine shoulder press',
+    muscleGroup: 'shoulders',
+    equipment: 'machine',
+    cues: 'Set the handles at shoulder height, press smoothly.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell lateral raise',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Lead with the elbows, raise to shoulder height, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Cable lateral raise',
+    muscleGroup: 'shoulders',
+    equipment: 'cable',
+    cues: 'Cable behind the body, sweep the hand out, keep the shoulder down.',
+  ),
+  SeedExercise(
+    name: 'Leaning lateral raise',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Hold a support, lean away, raise the outer arm in a clean arc.',
+  ),
+  SeedExercise(
+    name: 'Rear-delt dumbbell fly',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Hinge forward, sweep the arms wide, keep the neck long.',
+  ),
+  SeedExercise(
+    name: 'Reverse pec deck',
+    muscleGroup: 'shoulders',
+    equipment: 'machine',
+    cues: 'Chest on the pad, pull the handles apart, control the return.',
+  ),
+  SeedExercise(
+    name: 'Front raise',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'Raise to eye level, stop the swing, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Upright row',
+    muscleGroup: 'shoulders',
+    equipment: 'barbell',
+    cues: 'Pull the bar to the lower chest, keep it close, elbows lead.',
+  ),
+  SeedExercise(
+    name: 'Landmine press',
+    muscleGroup: 'shoulders',
+    equipment: 'barbell',
+    cues: 'One arm, press up and in, keep the trunk braced.',
+  ),
+  SeedExercise(
+    name: 'Band pull-apart',
+    muscleGroup: 'shoulders',
+    equipment: 'band',
+    cues: 'Straight arms, pull the band to the chest, squeeze the upper back.',
+  ),
+  SeedExercise(
+    name: 'Cuban press',
+    muscleGroup: 'shoulders',
+    equipment: 'dumbbell',
+    cues: 'High elbows, rotate the forearms up, use light weight.',
+  ),
+  SeedExercise(
+    name: 'Handstand push-up',
+    muscleGroup: 'shoulders',
+    equipment: 'bodyweight',
+    cues: 'Stack the hips over the shoulders, lower the head, press tall.',
+  ),
+
+  // Biceps
+  SeedExercise(
+    name: 'Barbell curl',
+    muscleGroup: 'biceps',
+    equipment: 'barbell',
+    cues: 'Elbows pinned, curl without swinging, lower to straight arms.',
+  ),
+  SeedExercise(
+    name: 'EZ-bar curl',
+    muscleGroup: 'biceps',
+    equipment: 'barbell',
+    cues: 'Relaxed wrists, elbows under the bar, squeeze at the top.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Turn the palms up as you curl, keep the shoulders quiet.',
+  ),
+  SeedExercise(
+    name: 'Incline dumbbell curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Let the arms hang back, curl from a long stretch.',
+  ),
+  SeedExercise(
+    name: 'Hammer curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Palms facing in, elbows close, lower under control.',
+  ),
+  SeedExercise(
+    name: 'Cross-body hammer curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Curl across the body, keep the upper arm still.',
+  ),
+  SeedExercise(
+    name: 'Preacher curl',
+    muscleGroup: 'biceps',
+    equipment: 'barbell',
+    cues: 'Armpits on the pad, stop just short of full lockout.',
+  ),
+  SeedExercise(
+    name: 'Cable curl',
+    muscleGroup: 'biceps',
+    equipment: 'cable',
+    cues: 'Constant tension, elbows fixed, squeeze the top.',
+  ),
+  SeedExercise(
+    name: 'Concentration curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Elbow braced on the inner thigh, curl slowly.',
+  ),
+  SeedExercise(
+    name: 'Spider curl',
+    muscleGroup: 'biceps',
+    equipment: 'dumbbell',
+    cues: 'Chest on the bench, let the arms hang, curl straight up.',
+  ),
+  SeedExercise(
+    name: 'Reverse curl',
+    muscleGroup: 'biceps',
+    equipment: 'barbell',
+    cues: 'Palms down, wrists firm, keep the elbows close.',
+  ),
+  SeedExercise(
+    name: 'Bayesian cable curl',
+    muscleGroup: 'biceps',
+    equipment: 'cable',
+    cues: 'Face away, pull the cable behind the body, curl from a stretch.',
+  ),
+
+  // Triceps
+  SeedExercise(
+    name: 'Close-grip bench press',
+    muscleGroup: 'triceps',
+    equipment: 'barbell',
+    cues: 'Hands just inside the shoulders, tuck the elbows, press.',
+  ),
+  SeedExercise(
+    name: 'Skull crusher',
+    muscleGroup: 'triceps',
+    equipment: 'barbell',
+    cues: 'Elbows above the shoulders, lower behind the head, extend.',
+  ),
+  SeedExercise(
+    name: 'Overhead dumbbell extension',
+    muscleGroup: 'triceps',
+    equipment: 'dumbbell',
+    cues: 'Keep the elbows narrow, lower behind the head, press tall.',
+  ),
+  SeedExercise(
+    name: 'Overhead cable extension',
+    muscleGroup: 'triceps',
+    equipment: 'cable',
+    cues: 'Face away, elbows high, extend until the arms are straight.',
+  ),
+  SeedExercise(
+    name: 'Cable pushdown',
+    muscleGroup: 'triceps',
+    equipment: 'cable',
+    cues: 'Elbows fixed, press the bar down, let the wrists stay neutral.',
+  ),
+  SeedExercise(
+    name: 'Rope pushdown',
+    muscleGroup: 'triceps',
+    equipment: 'cable',
+    cues: 'Push down and apart, finish with straight arms.',
+  ),
+  SeedExercise(
+    name: 'Single-arm cable pushdown',
+    muscleGroup: 'triceps',
+    equipment: 'cable',
+    cues: 'Elbow tucked, press down, control the return.',
+  ),
+  SeedExercise(
+    name: 'Parallel bar dip',
+    muscleGroup: 'triceps',
+    equipment: 'bodyweight',
+    cues: 'Upright torso, elbows back, lower to a right angle, press.',
+  ),
+  SeedExercise(
+    name: 'Bench dip',
+    muscleGroup: 'triceps',
+    equipment: 'bodyweight',
+    cues: 'Hands on the bench, shoulders down, lower and press.',
+  ),
+  SeedExercise(
+    name: 'JM press',
+    muscleGroup: 'triceps',
+    equipment: 'barbell',
+    cues: 'Lower toward the throat, keep the elbows forward, press out.',
+  ),
+  SeedExercise(
+    name: 'Dumbbell kickback',
+    muscleGroup: 'triceps',
+    equipment: 'dumbbell',
+    cues: 'Upper arm parallel to the floor, extend, pause.',
+  ),
+  SeedExercise(
+    name: 'Diamond push-up',
+    muscleGroup: 'triceps',
+    equipment: 'bodyweight',
+    cues: 'Hands close under the chest, elbows brush the ribs.',
+  ),
+
+  // Quads
+  SeedExercise(
+    name: 'Back squat',
+    muscleGroup: 'quads',
+    equipment: 'barbell',
+    cues: 'Big brace, knees track the toes, stand through the whole foot.',
+  ),
+  SeedExercise(
+    name: 'Front squat',
+    muscleGroup: 'quads',
+    equipment: 'barbell',
+    cues: 'Elbows high, sit down between the hips, keep the chest up.',
+  ),
+  SeedExercise(
+    name: 'High-bar squat',
+    muscleGroup: 'quads',
+    equipment: 'barbell',
+    cues: 'Bar on the traps, tall torso, deep knee bend.',
+  ),
+  SeedExercise(
+    name: 'Box squat',
+    muscleGroup: 'quads',
+    equipment: 'barbell',
+    cues: 'Sit back to the box, stay tight, stand explosively.',
+  ),
+  SeedExercise(
+    name: 'Hack squat',
+    muscleGroup: 'quads',
+    equipment: 'machine',
+    cues: 'Back flat against the pad, descend slowly, drive through mid-foot.',
+  ),
+  SeedExercise(
+    name: 'Leg press',
+    muscleGroup: 'quads',
+    equipment: 'machine',
+    cues: 'Feet flat, lower until the knees are comfortable, don’t lift the hips.',
+  ),
+  SeedExercise(
+    name: 'Pendulum squat',
+    muscleGroup: 'quads',
+    equipment: 'machine',
+    cues: 'Stay against the backrest, descend deep, press through the feet.',
+  ),
+  SeedExercise(
+    name: 'Bulgarian split squat',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues: 'Rear foot elevated, front shin near vertical, drive up.',
+  ),
+  SeedExercise(
+    name: 'Walking lunge',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues: 'Long step, front knee over the foot, push into the next step.',
+  ),
+  SeedExercise(
+    name: 'Reverse lunge',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues: 'Step back softly, keep the front foot planted, stand tall.',
+  ),
+  SeedExercise(
+    name: 'Lateral lunge',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues: 'Sit into the leading hip, keep the other leg long, drive out.',
+  ),
+  SeedExercise(
+    name: 'Step-up',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues: 'Use the top leg, stand fully, lower without pushing off the floor.',
+  ),
+  SeedExercise(
+    name: 'Goblet squat',
+    muscleGroup: 'quads',
+    equipment: 'dumbbell',
+    cues:
+        'Hold the weight at the chest, elbows inside the knees at the bottom.',
+  ),
+  SeedExercise(
+    name: 'Leg extension',
+    muscleGroup: 'quads',
+    equipment: 'machine',
+    cues: 'Line the knee with the pivot, extend, pause, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Sissy squat',
+    muscleGroup: 'quads',
+    equipment: 'bodyweight',
+    cues: 'Hips forward, knees travel past the toes, keep the body long.',
+  ),
+  SeedExercise(
+    name: 'Smith machine squat',
+    muscleGroup: 'quads',
+    equipment: 'machine',
+    cues: 'Feet slightly forward, unlock the bar, sit straight down.',
+  ),
+
+  // Hamstrings
+  SeedExercise(
+    name: 'Romanian deadlift',
+    muscleGroup: 'hamstrings',
+    equipment: 'barbell',
+    cues: 'Push the hips back, keep the bar close, stop when the hamstrings pull.',
+  ),
+  SeedExercise(
+    name: 'Stiff-leg deadlift',
+    muscleGroup: 'hamstrings',
+    equipment: 'barbell',
+    cues: 'Small knee bend, long spine, hinge until the stretch is strong.',
+  ),
+  SeedExercise(
+    name: 'Good morning',
+    muscleGroup: 'hamstrings',
+    equipment: 'barbell',
+    cues: 'Bar on the back, hinge, keep the chest up, stand through the hips.',
+  ),
+  SeedExercise(
+    name: 'Lying leg curl',
+    muscleGroup: 'hamstrings',
+    equipment: 'machine',
+    cues: 'Hips down, curl the heels toward the glutes, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Seated leg curl',
+    muscleGroup: 'hamstrings',
+    equipment: 'machine',
+    cues: 'Back against the pad, curl down, pause before returning.',
+  ),
+  SeedExercise(
+    name: 'Standing single-leg curl',
+    muscleGroup: 'hamstrings',
+    equipment: 'machine',
+    cues: 'Keep the hips level, curl one leg at a time.',
+  ),
+  SeedExercise(
+    name: 'Nordic hamstring curl',
+    muscleGroup: 'hamstrings',
+    equipment: 'bodyweight',
+    cues: 'Anchor the ankles, lower slowly, catch with the hands.',
+  ),
+  SeedExercise(
+    name: 'Single-leg Romanian deadlift',
+    muscleGroup: 'hamstrings',
+    equipment: 'dumbbell',
+    cues: 'Hips square, free leg reaches back, keep the standing shin soft.',
+  ),
+  SeedExercise(
+    name: 'Glute-ham raise',
+    muscleGroup: 'hamstrings',
+    equipment: 'machine',
+    cues: 'Squeeze the glutes, keep the spine neutral, lower under control.',
+  ),
+  SeedExercise(
+    name: 'Cable pull-through',
+    muscleGroup: 'hamstrings',
+    equipment: 'cable',
+    cues: 'Hinge between the feet, drive the hips forward, squeeze.',
+  ),
+  SeedExercise(
+    name: 'Kettlebell swing',
+    muscleGroup: 'hamstrings',
+    equipment: 'kettlebell',
+    cues: 'Hike the bell back, snap the hips, let the arms float.',
+  ),
+  SeedExercise(
+    name: 'Reverse hyperextension',
+    muscleGroup: 'hamstrings',
+    equipment: 'machine',
+    cues: 'Brace the torso, lift the legs with the glutes, control the drop.',
+  ),
+
+  // Glutes
+  SeedExercise(
+    name: 'Barbell hip thrust',
+    muscleGroup: 'glutes',
+    equipment: 'barbell',
+    cues: 'Chin tucked, ribs down, drive the hips to full extension.',
+  ),
+  SeedExercise(
+    name: 'Glute bridge',
+    muscleGroup: 'glutes',
+    equipment: 'bodyweight',
+    cues: 'Feet under the knees, squeeze the glutes, keep the ribs down.',
+  ),
+  SeedExercise(
+    name: 'Single-leg hip thrust',
+    muscleGroup: 'glutes',
+    equipment: 'bodyweight',
+    cues: 'Keep the pelvis level, push through the planted heel.',
+  ),
+  SeedExercise(
+    name: 'Cable kickback',
+    muscleGroup: 'glutes',
+    equipment: 'cable',
+    cues: 'Hinge slightly, kick the leg back, avoid arching the lower back.',
+  ),
+  SeedExercise(
+    name: 'Standing cable hip extension',
+    muscleGroup: 'glutes',
+    equipment: 'cable',
+    cues: 'Stand tall, extend the hip, keep the knee straight.',
+  ),
+  SeedExercise(
+    name: 'Sumo squat',
+    muscleGroup: 'glutes',
+    equipment: 'dumbbell',
+    cues: 'Wide feet, toes out, push the knees out and stand.',
+  ),
+  SeedExercise(
+    name: 'Frog pump',
+    muscleGroup: 'glutes',
+    equipment: 'bodyweight',
+    cues: 'Soles together, knees out, press the hips up quickly.',
+  ),
+  SeedExercise(
+    name: 'Lateral band walk',
+    muscleGroup: 'glutes',
+    equipment: 'band',
+    cues: 'Band above the knees, stay low, step wide without dragging.',
+  ),
+  SeedExercise(
+    name: 'Clamshell',
+    muscleGroup: 'glutes',
+    equipment: 'band',
+    cues: 'Stack the hips, open the top knee, keep the pelvis still.',
+  ),
+  SeedExercise(
+    name: 'Seated hip abduction',
+    muscleGroup: 'glutes',
+    equipment: 'machine',
+    cues: 'Sit tall, push the knees apart, return slowly.',
+  ),
+  SeedExercise(
+    name: 'Step-down',
+    muscleGroup: 'glutes',
+    equipment: 'dumbbell',
+    cues: 'Slow lower off the box, keep the standing knee tracking forward.',
+  ),
+  SeedExercise(
+    name: 'Hip airplane',
+    muscleGroup: 'glutes',
+    equipment: 'bodyweight',
+    cues: 'Hinge on one leg, open the hips, keep the pelvis level.',
+  ),
+
+  // Calves
+  SeedExercise(
+    name: 'Standing calf raise',
+    muscleGroup: 'calves',
+    equipment: 'machine',
+    cues: 'Full stretch, rise onto the toes, pause at the top.',
+  ),
+  SeedExercise(
+    name: 'Seated calf raise',
+    muscleGroup: 'calves',
+    equipment: 'machine',
+    cues: 'Knees bent, lower the heels, press through the balls of the feet.',
+  ),
+  SeedExercise(
+    name: 'Single-leg calf raise',
+    muscleGroup: 'calves',
+    equipment: 'bodyweight',
+    cues: 'Hold a support, rise slowly, lower into the deepest stretch.',
+  ),
+  SeedExercise(
+    name: 'Donkey calf raise',
+    muscleGroup: 'calves',
+    equipment: 'machine',
+    cues: 'Hinge forward, keep the knees soft, rise tall.',
+  ),
+  SeedExercise(
+    name: 'Leg press calf raise',
+    muscleGroup: 'calves',
+    equipment: 'machine',
+    cues: 'Press through the toes, stretch fully on the return.',
+  ),
+  SeedExercise(
+    name: 'Tibialis raise',
+    muscleGroup: 'calves',
+    equipment: 'bodyweight',
+    cues: 'Back against the wall, pull the toes up, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Jump rope',
+    muscleGroup: 'calves',
+    equipment: 'cardio',
+    cues: 'Stay tall, turn the rope from the wrists, land quietly.',
+  ),
+  SeedExercise(
+    name: 'Smith machine calf raise',
+    muscleGroup: 'calves',
+    equipment: 'machine',
+    cues: 'Bar on the shoulders, heels off the block, rise and lower.',
+  ),
+
+  // Core
+  SeedExercise(
+    name: 'Plank',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Elbows under the shoulders, ribs down, squeeze the glutes.',
+  ),
+  SeedExercise(
+    name: 'Side plank',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Stack the hips, push the bottom shoulder away, breathe.',
+  ),
+  SeedExercise(
+    name: 'Dead bug',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Press the lower back down, reach opposite arm and leg.',
+  ),
+  SeedExercise(
+    name: 'Bird dog',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Reach long, keep the hips square, pause before switching.',
+  ),
+  SeedExercise(
+    name: 'Hollow hold',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Ribs down, legs together, lift the shoulders just off the floor.',
+  ),
+  SeedExercise(
+    name: 'Hanging leg raise',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Hang tall, raise the legs without swinging, lower slowly.',
+  ),
+  SeedExercise(
+    name: 'Hanging knee raise',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues:
+        'Curl the pelvis, bring the knees toward the chest, control the drop.',
+  ),
+  SeedExercise(
+    name: 'Cable crunch',
+    muscleGroup: 'core',
+    equipment: 'cable',
+    cues: 'Hips fixed, round the spine, pull the ribs to the pelvis.',
+  ),
+  SeedExercise(
+    name: 'Ab wheel rollout',
+    muscleGroup: 'core',
+    equipment: 'other',
+    cues: 'Reach forward without arching, pull back with the abs.',
+  ),
+  SeedExercise(
+    name: 'Bicycle crunch',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Rotate from the ribs, keep the lower back close to the floor.',
+  ),
+  SeedExercise(
+    name: 'Russian twist',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Lean back, rotate the chest, keep the neck relaxed.',
+  ),
+  SeedExercise(
+    name: 'Pallof press',
+    muscleGroup: 'core',
+    equipment: 'cable',
+    cues: 'Side-on to the cable, press out, resist the twist.',
+  ),
+  SeedExercise(
+    name: 'Farmer’s carry',
+    muscleGroup: 'core',
+    equipment: 'dumbbell',
+    cues: 'Stand tall, squeeze the ribs down, walk with quiet steps.',
+  ),
+  SeedExercise(
+    name: 'Suitcase carry',
+    muscleGroup: 'core',
+    equipment: 'dumbbell',
+    cues: 'One side loaded, stay level, resist leaning toward the weight.',
+  ),
+  SeedExercise(
+    name: 'Mountain climber',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Shoulders over the hands, drive the knees, keep the hips low.',
+  ),
+  SeedExercise(
+    name: 'Copenhagen plank',
+    muscleGroup: 'core',
+    equipment: 'bodyweight',
+    cues: 'Inner thigh on the bench, lift the hips, stay in one line.',
+  ),
+
+  // Full body
+  SeedExercise(
+    name: 'Power clean',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Pull from the floor, extend fast, catch with the elbows high.',
+  ),
+  SeedExercise(
+    name: 'Hang clean',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Hinge above the knee, jump tall, pull under the bar.',
+  ),
+  SeedExercise(
+    name: 'Clean',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues:
+        'Keep the bar close, extend the hips, meet the bar in the front rack.',
+  ),
+  SeedExercise(
+    name: 'Snatch',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Wide grip, long pull, lock the arms overhead and stand.',
+  ),
+  SeedExercise(
+    name: 'Clean and jerk',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Clean to the shoulders, dip and drive, lock the bar overhead.',
+  ),
+  SeedExercise(
+    name: 'Push press',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Short dip, drive with the legs, finish with a strong lockout.',
+  ),
+  SeedExercise(
+    name: 'Thruster',
+    muscleGroup: 'fullBody',
+    equipment: 'barbell',
+    cues: 'Squat, use the rebound, press the bar overhead in one motion.',
+  ),
+  SeedExercise(
+    name: 'Kettlebell clean',
+    muscleGroup: 'fullBody',
+    equipment: 'kettlebell',
+    cues: 'Hike, snap the hips, let the bell land soft in the rack.',
+  ),
+  SeedExercise(
+    name: 'Turkish get-up',
+    muscleGroup: 'fullBody',
+    equipment: 'kettlebell',
+    cues: 'Move slowly, keep the eyes on the weight, own every position.',
+  ),
+  SeedExercise(
+    name: 'Bear crawl',
+    muscleGroup: 'fullBody',
+    equipment: 'bodyweight',
+    cues: 'Knees low, back flat, move opposite hand and foot.',
+  ),
+
+  // Conditioning
+  SeedExercise(
+    name: 'Rowing erg',
+    muscleGroup: 'conditioning',
+    equipment: 'cardio',
+    cues: 'Legs, then back, then arms; reverse on the way home.',
+  ),
+  SeedExercise(
+    name: 'Treadmill run',
+    muscleGroup: 'conditioning',
+    equipment: 'cardio',
+    cues: 'Stay relaxed, land under the hips, keep a steady rhythm.',
+  ),
+  SeedExercise(
+    name: 'Stationary bike',
+    muscleGroup: 'conditioning',
+    equipment: 'cardio',
+    cues: 'Set the saddle at hip height, pedal smooth circles.',
+  ),
+  SeedExercise(
+    name: 'Stair climber',
+    muscleGroup: 'conditioning',
+    equipment: 'cardio',
+    cues: 'Stand tall, use the rails lightly, take full steps.',
+  ),
+  SeedExercise(
+    name: 'Battle ropes',
+    muscleGroup: 'conditioning',
+    equipment: 'other',
+    cues: 'Knees soft, make quick waves, keep the shoulders down.',
+  ),
+  SeedExercise(
+    name: 'Sled push',
+    muscleGroup: 'conditioning',
+    equipment: 'other',
+    cues: 'Low lean, drive through the legs, take short powerful steps.',
+  ),
+  SeedExercise(
+    name: 'Sled drag',
+    muscleGroup: 'conditioning',
+    equipment: 'other',
+    cues: 'Lean away from the sled, walk backward with a steady pull.',
+  ),
+  SeedExercise(
+    name: 'Burpee',
+    muscleGroup: 'conditioning',
+    equipment: 'bodyweight',
+    cues: 'Chest to the floor, jump the feet in, stand and reach.',
+  ),
+  SeedExercise(
+    name: 'Box jump',
+    muscleGroup: 'conditioning',
+    equipment: 'other',
+    cues: 'Jump quietly, land with soft knees, step down.',
+  ),
+  SeedExercise(
+    name: 'Ski erg',
+    muscleGroup: 'conditioning',
+    equipment: 'cardio',
+    cues: 'Hinge and pull the handles down, stay long through the torso.',
+  ),
+];
