@@ -27,7 +27,7 @@ jobs:
           fi
 
   unsigned:
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
   signed:
     needs: signing
     if: needs.signing.outputs.available == 'true'
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4

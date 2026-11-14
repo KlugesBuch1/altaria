@@ -43,7 +43,7 @@ keyPassword=...
 ### iOS
 
 The `ios/` scaffold and the GitHub Actions workflow are committed. The unsigned
-build runs on `macos-14`:
+build runs on `macos-15` (arm64):
 
 ```sh
 flutter build ios --release --no-codesign
