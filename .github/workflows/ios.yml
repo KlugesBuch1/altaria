@@ -10,6 +10,22 @@ permissions:
   contents: read
 
 jobs:
+  signing:
+    runs-on: ubuntu-latest
+    outputs:
+      available: ${{ steps.check.outputs.available }}
+    steps:
+      - id: check
+        env:
+          CERTIFICATE: ${{ secrets.IOS_CERTIFICATE_P12 }}
+          PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+        run: |
+          if [ -n "$CERTIFICATE" ] && [ -n "$PROFILE" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
   unsigned:
     runs-on: macos-14
     timeout-minutes: 45
@@ -41,5 +57,112 @@ jobs:
         with:
           name: altaria-ios-unsigned
           path: build/ios/ipa/altaria-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
+
+  signed:
+    needs: signing
+    if: needs.signing.outputs.available == 'true'
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.50.0'
+          cache: true
+
+      - name: Resolve packages
+        run: flutter pub get
+
+      - name: Import signing material
+        env:
+          CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+        run: |
+          set -euo pipefail
+          KEYCHAIN="$RUNNER_TEMP/altaria.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -hex 16)"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security default-keychain -s "$KEYCHAIN"
+          echo "$CERTIFICATE_P12" | python3 -c \
+            'import base64, sys; sys.stdout.buffer.write(base64.b64decode(sys.stdin.read()))' \
+            > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN" \
+            -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN" > /dev/null
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo "$PROVISIONING_PROFILE" | python3 -c \
+            'import base64, sys; sys.stdout.buffer.write(base64.b64decode(sys.stdin.read()))' \
+            > "$HOME/Library/MobileDevice/Provisioning Profiles/altaria.mobileprovision"
+          PROFILE_NAME="$(security cms -D \
+            -i "$HOME/Library/MobileDevice/Provisioning Profiles/altaria.mobileprovision" \
+            | plutil -extract Name raw -)"
+          echo "PROFILE_NAME=$PROFILE_NAME" >> "$GITHUB_ENV"
+
+      - name: Archive
+        env:
+          TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+          SIGNING_IDENTITY: ${{ secrets.IOS_SIGNING_IDENTITY }}
+        run: |
+          set -euo pipefail
+          IDENTITY="${SIGNING_IDENTITY:-Apple Development}"
+          flutter build ios --release --no-codesign
+          cd ios
+          xcodebuild -workspace Runner.xcworkspace -scheme Runner \
+            -configuration Release -sdk iphoneos \
+            -archivePath "$RUNNER_TEMP/altaria.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="$IDENTITY" \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
+            archive
+
+      - name: Export the signed IPA
+        env:
+          TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+          EXPORT_METHOD: ${{ secrets.IOS_EXPORT_METHOD }}
+        run: |
+          set -euo pipefail
+          METHOD="${EXPORT_METHOD:-development}"
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>${METHOD}</string>
+            <key>teamID</key>
+            <string>${TEAM_ID}</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>compileBitcode</key>
+            <false/>
+            <key>stripSwiftSymbols</key>
+            <true/>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>dev.klugesbuch.altaria</key>
+              <string>${PROFILE_NAME}</string>
+            </dict>
+          </dict>
+          </plist>
+          EOF
+          rm -rf "$RUNNER_TEMP/export"
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/altaria.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: altaria-ios-signed
+          path: ${{ runner.temp }}/export/*.ipa
           if-no-files-found: error
           retention-days: 14
