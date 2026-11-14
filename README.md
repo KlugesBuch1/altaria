@@ -1,20 +1,49 @@
 # altaria
 
-A free, open-source SoundCloud client for Android and iOS. Search the public
-catalogue, build a queue, lock the screen, keep listening. No account, no ads,
-no feed.
+Ad-free SoundCloud listening and strength training, in one app.
 
-![altaria playing a track](docs/player.png)
+Search and play SoundCloud without an account, then switch to a local training
+log built for one hand and no connection. The last mode is remembered, the mini
+player stays above the Train tabs, and music keeps playing through a workout.
 
-## What it does
+![altaria in Train mode](docs/train-home.png)
 
-- Search tracks, sets and artists, with pagination and in-memory deduplication.
+## Listen
+
+- Search tracks, sets and artists, with pagination and deduplication.
 - Browse the trending charts.
-- Open a set or an artist and play the whole list.
 - Queue tracks, move next and previous, seek, and see elapsed and total time.
 - Keep playing in the background with lock-screen artwork and controls.
 - Pause for calls and headphone unplug, then resume.
-- Mark tracks without a clear stream and leave them out of the queue.
+- No SoundCloud account, ads, feed, downloads or offline catalogue.
+
+## Train
+
+- 160 seeded movements with muscle group, equipment and original cues.
+- Search and filter the library; add, edit and delete custom movements.
+- Unlimited routines with ordered exercises, target sets and reps, target
+  weight, per-exercise rest, notes and superset groups. Duplicate or delete a
+  routine from the list.
+- Start an empty workout, a routine or a repeat of a past session.
+- Log working, warm-up, drop and failure sets with weight and reps, bodyweight
+  reps, time, distance, RPE, per-set notes and completion.
+- See previous performance while logging. Add, remove and reorder movements
+  mid-workout.
+- Pair or group movements as supersets. After a set, altaria offers the next
+  movement in the group.
+- A rest timer with per-exercise defaults, +15, -15, skip, an in-app countdown
+  and a separate notification channel. It never touches the music player.
+- Plate calculator with configurable bar and plate inventory, warm-up set
+  calculator and 1RM / percentage table.
+- History with list and calendar views, workout detail, repeat, edit and delete.
+- Progress with heaviest set, reps-at-weight, estimated 1RM, set-volume records,
+  per-exercise charts, body weight, tape measurements and optional photos.
+- kg/lb display, default rest, plate setup, keep-screen-awake, notification
+  permission and free local backups.
+
+Training is free and works fully offline. There is no account, paywall, IAP,
+trial, ad or network requirement in the gym. The first launch does not wait for
+SoundCloud discovery to open Train.
 
 ## Build
 
@@ -68,58 +97,110 @@ If these repository secrets exist, a second job also exports a signed IPA as
 The signed path has not been executed: there is no Mac and no remote for this
 repository during development. The unsigned workflow has not run either. Both
 are written against Flutter 3.50 and the current Apple toolchain, not against a
-local run.
+local run. New plugins are configured in the iOS project, but the iOS build
+still needs to be exercised in CI or on a Mac.
 
 ## Architecture
 
-**The API client is Dart.** `soundcloud-v2` is the reference implementation of
-the measured routes, not a dependency. The client is HTTP, JSON parsing and a
-few regexes; a Rust bridge would add `cargo-ndk`, an iOS xcframework and
-`flutter_rust_bridge` to both builds. iOS cannot be compiled locally, so that
-extra native surface would be undebuggable. The trade-off and the alternative
-are recorded in [the ADR](docs/adr/0001-dart-api-client.md).
+### Two modes, one shell
 
-**Playback is `just_audio` + `audio_service`.** The `AudioHandler` owns the
-queue and the player, so notification, lock screen and UI share one state.
-`audio_service` runs the Android foreground service and media session; on iOS
-the app declares the `audio` background mode.
+`HomeShell` owns the Listen/Train switch, the bottom navigation and the shared
+mini player. Search and Browse keep their existing routes and player. The Train
+tab uses Workout, Routines, History and Progress. The selected mode is stored in
+the same local settings record as the training preferences. Pushing the full
+player works from either mode.
 
-**Resolve at play time.** A transcoding is resolved immediately before each
-track starts. The order is progressive, then HLS `aac_160k`, `aac_96k`, then
-`abr_sq`; a 404 moves to the next rendition. Encrypted HLS is not played.
+The music code in `lib/data/` and `lib/playback/` is unchanged in ownership:
+`AltariaAudioHandler` is still the only player and the only `AudioService`.
+Training code has no audio player and does not initialize an audio session.
+Current-track changes and queue state still flow through the one media session.
 
-**Client id in memory.** Discovery reads the player page and its assets, keeps
-the id for the process lifetime, and refreshes it once after a 401. Concurrent
-refreshes share one discovery. `next_href` is followed and the current id is
-added to it.
+### Local-first training
 
-**No persistence.** Track metadata lives in memory for the session. There is no
-offline store and no download path; the catalogue has no audio cache route.
+Training data lives in SQLite (`sqflite`) behind `TrainingRepository`. The
+schema has numbered migrations and a `schema_migrations` table. Version 1
+contains exercises, routines and their targets, workouts, workout sets, body
+metrics, progress photos and settings. The repository is the only writer.
+
+The 160-movement catalogue is seeded with `INSERT OR IGNORE` inside one batch,
+keyed by a case-insensitive unique name. Seeding runs on every open and is
+idempotent; custom movements survive it. Built-in movements cannot be edited.
+Deleting a custom movement archives it so history keeps working while the
+library hides it.
+
+Pure calculators and record detection are in `lib/training/calculators.dart`:
+kg/lb conversion, Epley 1RM, plate combinations, warm-up percentages, volume and
+PRs. The UI reads them through `TrainingStore`, which also persists the last mode
+and refreshes History and Progress after writes.
+
+### Rest notification versus audio focus
+
+The rest timer is app-owned. It schedules a notification on a separate Android
+channel, `dev.klugesbuch.altaria.rest`, never the media channel, and uses
+`USAGE_NOTIFICATION`, not `USAGE_MEDIA`. It does not request audio focus, duck,
+pause or reinitialize music. In the background, the running timer posts the
+alert when it reaches zero; a scheduled inexact notification is the fallback if
+the process is killed. Exact-alarm permission is deliberately not requested.
+
+If notification permission is denied, the in-app countdown, soundless visual
+feedback and skip/add controls still run. The app only loses the system alert.
+The channel has sound and vibration enabled; iOS uses the standard notification
+permission path in `Info.plist`/`AppDelegate`.
+
+### Backup
+
+The full JSON backup contains settings, every exercise (including custom and
+archived), routines, workouts and sets, body metrics and progress photos
+(base64). It is written to a temporary file and sent through the system share
+sheet. CSV export contains finished-workout set rows. Import replaces local
+training data in one transaction and then re-seeds any missing catalogue names.
+There is no cloud sync.
+
+## Deliberate cuts
+
+- No Apple Watch or Wear OS app.
+- No HealthKit or Health Connect integration.
+- No home-screen widgets or Live Activities.
+- No cloud sync or account. Full JSON/CSV export and restore replace it.
+- No offline or downloaded music. SoundCloud playback still needs a network.
+- No user-token login. Existing music scope is unchanged.
+- No subscriptions, purchases, ads or locked features.
 
 ## Verified
 
-On the Android 15 emulator, with the release APK:
+- `flutter analyze`: no issues.
+- `flutter test`: 52 tests, all passing. They cover the old music behavior,
+  calculators, repository persistence/import, set logging, routine editing and
+  the mode switch.
+- Release APK: 55.0 MB, installed on an Android 15 emulator.
+- Airplane-mode fresh install: created a custom movement and routine, logged
+  three sets, saw the rest alert, finished, and found History and a PR. After
+  force-stop/relaunch the SQLite rows were still there.
+- Music + training: media session stayed `PLAYING` with a 44.1 kHz media track
+  while the separate rest channel fired.
+- JSON backup exported, local data reset, import restored the same routines,
+  workouts, settings, body metric and photo. CSV export opened the share sheet.
+- iOS was not compiled locally; the CI workflow and native plugin configuration
+  are committed.
 
-- install, search and play; `dumpsys media_session` reports `PLAYING`, the right
-  title and a 40-item queue; `dumpsys audio` shows an `AudioTrack` at 44.1 kHz.
-- lock screen shows the artwork and metadata; a media key pauses and resumes it.
-- an emulated incoming call pauses playback; cancelling the call resumes it.
-- seeking to 4:50 and next/previous work; the set and artist pages open.
-- the universal APK is 50.2 MB.
-
-Headphone unplug is delegated to `just_audio`'s becoming-noisy receiver. The
-receiver is registered; there was no physical headset to unplug on the emulator.
-iOS was not compiled or installed. The raw state excerpts and the lock-screen
-capture are in [docs/verification.md](docs/verification.md).
+The commands, system excerpts and screenshots are in
+[docs/verification.md](docs/verification.md). The training architecture and
+deliberate cuts are recorded in
+[ADR 0002](docs/adr/0002-local-first-training.md). The original music decisions
+remain in [ADR 0001](docs/adr/0001-dart-api-client.md).
 
 ## Layout
 
 ```text
-lib/data/       api client, models, stream selection
-lib/playback/   queue and audio handler
-lib/ui/         search, browse, sets, artists, player
+lib/data/       SoundCloud client and music models
+lib/playback/   queue and the single audio handler
+lib/ui/         Listen screens, shell and shared player
+lib/training/   models, calculators, database, repository, store and Train UI
 tool/smoke.dart hits the real API: dart run tool/smoke.dart
 ```
+
+Training screens are under `lib/training/ui/` and are mounted by
+`lib/ui/home_shell.dart`.
 
 ## License
 
