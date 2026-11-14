@@ -80,13 +80,16 @@ class _HomeShellState extends State<HomeShell> {
             Expanded(
               child: IndexedStack(
                 index: _selectedIndex,
-                children: const [
-                  SearchScreen(),
-                  BrowseScreen(),
-                  WorkoutScreen(),
-                  RoutinesScreen(),
-                  HistoryScreen(),
-                  ProgressScreen(),
+                children: [
+                  const SearchScreen(),
+                  const BrowseScreen(),
+                  WorkoutScreen(
+                    onOpenRoutines: () => setState(() => _trainTab = 1),
+                    onOpenHistory: () => setState(() => _trainTab = 2),
+                  ),
+                  const RoutinesScreen(),
+                  const HistoryScreen(),
+                  const ProgressScreen(),
                 ],
               ),
             ),
