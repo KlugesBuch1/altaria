@@ -125,8 +125,7 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
     _publishQueue();
     _publishState();
     try {
-      final url = await api.resolveStream(track);
-      await _player.setUrl(url);
+      await _openStream(track, token);
       if (token != _loadToken) return;
       _loading = false;
       _publishState();
@@ -137,6 +136,20 @@ class AltariaAudioHandler extends BaseAudioHandler with SeekHandler {
       _publishState();
       _report(_messageFor(error));
       debugPrint('altaria playback: $error');
+    }
+  }
+
+  Future<void> _openStream(Track track, int token) async {
+    final url = await api.resolveStream(track);
+    if (token != _loadToken) return;
+    try {
+      await _player.setUrl(url);
+    } on PlayerException catch (error) {
+      if (token != _loadToken) return;
+      // The signed URL is short lived; resolve once more if the player rejects it.
+      debugPrint('altaria stream retry: $error');
+      final fresh = await api.resolveStream(track);
+      await _player.setUrl(fresh);
     }
   }
 
