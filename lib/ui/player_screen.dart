@@ -28,7 +28,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           gradient: RadialGradient(
             center: const Alignment(0, -0.8),
             radius: 1.1,
-            colors: [frost.withValues(alpha: 0.12), Colors.transparent],
+            colors: [wine.withValues(alpha: 0.42), Colors.transparent],
           ),
         ),
         child: SafeArea(
@@ -57,7 +57,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(color: bone, height: 1.2),
+                                ?.copyWith(color: cream, height: 1.2),
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -174,12 +174,12 @@ class _PreviewBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: ember.withValues(alpha: 0.14),
+        color: wine,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Text(
         '30 SECOND PREVIEW',
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(color: ember),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(color: cream),
       ),
     );
   }
@@ -199,7 +199,7 @@ class _Header extends StatelessWidget {
           IconButton(
             tooltip: 'Close',
             onPressed: onClose,
-            icon: const Icon(Icons.keyboard_arrow_down_rounded, color: bone),
+            icon: const Icon(Icons.keyboard_arrow_down_rounded, color: cream),
           ),
           const Spacer(),
           Text(
@@ -254,7 +254,7 @@ class _Transport extends StatelessWidget {
           tooltip: 'Previous',
           onPressed: handler.skipToPrevious,
           iconSize: 38,
-          color: bone,
+          color: cream,
           icon: const Icon(Icons.skip_previous_rounded),
         ),
         const SizedBox(width: 28),
@@ -264,7 +264,7 @@ class _Transport extends StatelessWidget {
           tooltip: 'Next',
           onPressed: handler.skipToNext,
           iconSize: 38,
-          color: bone,
+          color: cream,
           icon: const Icon(Icons.skip_next_rounded),
         ),
       ],
@@ -332,7 +332,7 @@ class _QueueRow extends StatelessWidget {
                     track.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyMedium?.copyWith(color: bone),
+                    style: theme.textTheme.bodyMedium?.copyWith(color: cream),
                   ),
                   Text(
                     track.artist,
@@ -375,8 +375,10 @@ class _PlayButton extends StatelessWidget {
           width: 76,
           height: 76,
           child: Material(
-            color: frost,
-            shape: const CircleBorder(),
+            color: wine,
+            shape: CircleBorder(
+              side: BorderSide(color: cream.withValues(alpha: 0.18), width: 1),
+            ),
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: loading
@@ -395,7 +397,7 @@ class _PlayButton extends StatelessWidget {
                         height: 26,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
-                          color: ink,
+                          color: cream,
                         ),
                       )
                     : Icon(
@@ -403,7 +405,7 @@ class _PlayButton extends StatelessWidget {
                             ? Icons.pause_rounded
                             : Icons.play_arrow_rounded,
                         size: 40,
-                        color: ink,
+                        color: cream,
                       ),
               ),
             ),

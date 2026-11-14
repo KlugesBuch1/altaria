@@ -90,7 +90,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         backgroundColor: ink,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        leading: const BackButton(color: bone),
+        leading: const BackButton(color: cream),
       ),
       body: SafeArea(
         top: false,
@@ -119,7 +119,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.titleLarge?.copyWith(
-                            color: bone,
+                            color: cream,
                             height: 1.15,
                           ),
                         ),

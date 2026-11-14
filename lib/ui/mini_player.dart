@@ -78,7 +78,7 @@ class _Bar extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: bone,
+                              color: cream,
                             ),
                           ),
                           const SizedBox(height: 1),
@@ -109,7 +109,7 @@ class _Bar extends StatelessWidget {
                           playing
                               ? Icons.pause_rounded
                               : Icons.play_arrow_rounded,
-                          color: bone,
+                          color: cream,
                         ),
                         onPressed: () {
                           if (playing) {
@@ -143,7 +143,7 @@ class _Bar extends StatelessWidget {
                     value: value,
                     minHeight: 2,
                     backgroundColor: Colors.transparent,
-                    color: frost,
+                    color: rose,
                   );
                 },
               ),

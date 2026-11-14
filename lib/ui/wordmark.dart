@@ -2,21 +2,33 @@ import 'package:material_ui/material_ui.dart';
 
 import '../theme.dart';
 
+/// The name is the logo. Jost 700, tight, with one dusty-rose full stop.
 class Wordmark extends StatelessWidget {
   const Wordmark({super.key});
 
+  static const _style = TextStyle(
+    fontFamily: 'Jost',
+    fontWeight: FontWeight.w700,
+    fontSize: 30,
+    height: 1,
+    letterSpacing: -1,
+    color: cream,
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        Text(
-          'altaria',
-          style: Theme.of(context).textTheme.headlineSmall
-              ?.copyWith(color: bone, fontSize: 26, letterSpacing: -0.8),
-        ),
-      ],
+    return Text.rich(
+      TextSpan(
+        children: [
+          const TextSpan(text: 'altaria'),
+          TextSpan(
+            text: '.',
+            style: _style.copyWith(color: rose),
+          ),
+        ],
+      ),
+      style: _style,
+      semanticsLabel: 'altaria',
     );
   }
 }

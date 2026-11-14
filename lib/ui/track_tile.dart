@@ -47,8 +47,8 @@ class TrackTile extends StatelessWidget {
                       color: unplayable
                           ? muted
                           : isCurrent
-                          ? frost
-                          : bone,
+                          ? rose
+                          : cream,
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -71,13 +71,13 @@ class TrackTile extends StatelessWidget {
                             vertical: 1,
                           ),
                           decoration: BoxDecoration(
-                            color: ember.withValues(alpha: 0.15),
+                            color: wine,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
                             'PREVIEW',
                             style: theme.textTheme.labelSmall?.copyWith(
-                              color: ember,
+                              color: cream,
                               fontSize: 8,
                               letterSpacing: 0.8,
                             ),
@@ -120,7 +120,7 @@ class TrackTile extends StatelessWidget {
                   color: unplayable
                       ? muted.withValues(alpha: 0.5)
                       : isCurrent
-                      ? frost
+                      ? rose
                       : muted,
                   size: 22,
                 ),

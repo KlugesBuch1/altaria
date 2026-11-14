@@ -34,7 +34,7 @@ class PlaylistTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: bone,
+                      color: cream,
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -85,7 +85,7 @@ class UserTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: bone,
+                      color: cream,
                     ),
                   ),
                   const SizedBox(height: 3),

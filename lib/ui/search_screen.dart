@@ -258,7 +258,7 @@ class _SearchScreenState extends State<SearchScreen> {
             },
             decoration: InputDecoration(
               hintText: 'Search tracks, sets and artists',
-              prefixIcon: const Icon(Icons.search_rounded, color: muted),
+              prefixIcon: const Icon(Icons.search_rounded, color: rose),
               suffixIcon: hasText
                   ? IconButton(
                       tooltip: 'Clear',
@@ -432,16 +432,10 @@ class _KindChip extends StatelessWidget {
       showCheckmark: false,
       onSelected: (_) => onTap(),
       backgroundColor: panel,
-      selectedColor: frost.withValues(alpha: 0.16),
-      side: BorderSide(
-        color: selected
-            ? frost.withValues(alpha: 0.5)
-            : const Color(0xFF1D2832),
-      ),
-      labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-        color: selected ? frost : muted,
-        fontWeight: FontWeight.w600,
-      ),
+      selectedColor: wine,
+      side: BorderSide(color: selected ? wine : const Color(0xFF3D2421)),
+      labelStyle: Theme.of(context).textTheme.bodySmall
+          ?.copyWith(color: cream, fontWeight: FontWeight.w600),
       visualDensity: VisualDensity.compact,
     );
   }
@@ -461,17 +455,11 @@ class _SearchIntro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          Icon(
-            Icons.graphic_eq_rounded,
-            size: 38,
-            color: frost.withValues(alpha: 0.7),
-          ),
-          const SizedBox(height: 18),
           Text(
             'Find something\nto keep.',
             style: theme.textTheme.displaySmall?.copyWith(
               height: 1.08,
-              color: bone,
+              color: cream,
             ),
           ),
           const SizedBox(height: 10),
@@ -495,8 +483,8 @@ class _SearchIntro extends StatelessWidget {
                   label: Text(suggestion),
                   onPressed: () => onSuggestion(suggestion),
                   backgroundColor: panel,
-                  side: const BorderSide(color: Color(0xFF1D2832)),
-                  labelStyle: theme.textTheme.bodySmall?.copyWith(color: bone),
+                  side: const BorderSide(color: Color(0xFF3D2421)),
+                  labelStyle: theme.textTheme.bodySmall?.copyWith(color: cream),
                 ),
             ],
           ),

@@ -23,10 +23,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/fonts/OFL-Jost.txt
+
+  fonts:
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/Jost-Bold.ttf
+          weight: 700
+
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon.png"
-  adaptive_icon_background: "#090D11"
+  adaptive_icon_background: "#5A1414"
   adaptive_icon_foreground: "assets/icon_foreground.png"
   remove_alpha_ios: true

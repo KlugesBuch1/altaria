@@ -87,7 +87,7 @@ class _UserScreenState extends State<UserScreen> {
         backgroundColor: ink,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        leading: const BackButton(color: bone),
+        leading: const BackButton(color: cream),
       ),
       body: SafeArea(
         top: false,
@@ -116,7 +116,7 @@ class _UserScreenState extends State<UserScreen> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.titleLarge?.copyWith(
-                            color: bone,
+                            color: cream,
                             height: 1.15,
                           ),
                         ),

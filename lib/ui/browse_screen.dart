@@ -84,7 +84,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
           Text(
             'Trending now',
             style: Theme.of(context).textTheme.displaySmall
-                ?.copyWith(color: bone, height: 1.05),
+                ?.copyWith(color: cream, height: 1.05),
           ),
           const SizedBox(height: 6),
           Text(
@@ -128,7 +128,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
       handler: player,
       builder: (context, currentId) => RefreshIndicator(
         onRefresh: _load,
-        color: frost,
+        color: rose,
         backgroundColor: panelHigh,
         child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 32),
