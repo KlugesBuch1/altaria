@@ -7,6 +7,7 @@ import '../data/models.dart';
 import '../data/soundcloud_client.dart';
 import '../playback/audio_handler.dart';
 import '../theme.dart';
+import 'current_track.dart';
 import 'playlist_screen.dart';
 import 'result_tiles.dart';
 import 'track_tile.dart';
@@ -334,31 +335,40 @@ class _SearchScreenState extends State<SearchScreen> {
     if (_tracks.isEmpty) {
       return _EmptyState(query: _query, noun: 'tracks');
     }
-    return ListView.builder(
-      controller: _scroll,
-      padding: const EdgeInsets.only(bottom: 120),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      itemCount: _tracks.length + 1,
-      itemBuilder: (context, index) {
-        if (index == _tracks.length) {
-          if (_trackPage?.nextHref == null) {
-            return const SizedBox(height: 28);
-          }
-          if (!_loadingMore) return const SizedBox(height: 28);
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
-            child: Center(
-              child: SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(strokeWidth: 2),
+    final player = _player;
+    if (player == null) return const SizedBox.shrink();
+    return CurrentTrackBuilder(
+      handler: player,
+      builder: (context, currentId) => ListView.builder(
+        controller: _scroll,
+        padding: const EdgeInsets.only(bottom: 120),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        itemCount: _tracks.length + 1,
+        itemBuilder: (context, index) {
+          if (index == _tracks.length) {
+            if (_trackPage?.nextHref == null) {
+              return const SizedBox(height: 28);
+            }
+            if (!_loadingMore) return const SizedBox(height: 28);
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(
+                child: SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
               ),
-            ),
+            );
+          }
+          final track = _tracks[index];
+          return TrackTile(
+            track: track,
+            isCurrent: track.id == currentId,
+            onTap: () => _play(index),
           );
-        }
-        final track = _tracks[index];
-        return TrackTile(track: track, onTap: () => _play(index));
-      },
+        },
+      ),
     );
   }
 

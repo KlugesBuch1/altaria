@@ -5,6 +5,7 @@ import '../data/models.dart';
 import '../data/soundcloud_client.dart';
 import '../playback/audio_handler.dart';
 import '../theme.dart';
+import 'current_track.dart';
 import 'track_tile.dart';
 import 'wordmark.dart';
 
@@ -121,17 +122,27 @@ class _BrowseScreenState extends State<BrowseScreen> {
         child: Text('No charts right now.', style: TextStyle(color: muted)),
       );
     }
-    return RefreshIndicator(
-      onRefresh: _load,
-      color: frost,
-      backgroundColor: panelHigh,
-      child: ListView.builder(
-        padding: const EdgeInsets.only(bottom: 32),
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: _tracks.length,
-        itemBuilder: (context, index) {
-          return TrackTile(track: _tracks[index], onTap: () => _play(index));
-        },
+    final player = _player;
+    if (player == null) return const SizedBox.shrink();
+    return CurrentTrackBuilder(
+      handler: player,
+      builder: (context, currentId) => RefreshIndicator(
+        onRefresh: _load,
+        color: frost,
+        backgroundColor: panelHigh,
+        child: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 32),
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _tracks.length,
+          itemBuilder: (context, index) {
+            final track = _tracks[index];
+            return TrackTile(
+              track: track,
+              isCurrent: track.id == currentId,
+              onTap: () => _play(index),
+            );
+          },
+        ),
       ),
     );
   }

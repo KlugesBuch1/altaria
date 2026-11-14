@@ -6,6 +6,7 @@ import '../data/soundcloud_client.dart';
 import '../playback/audio_handler.dart';
 import '../theme.dart';
 import 'artwork.dart';
+import 'current_track.dart';
 import 'track_tile.dart';
 
 class PlaylistScreen extends StatefulWidget {
@@ -176,12 +177,22 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
         child: Text('This set has no tracks.', style: TextStyle(color: muted)),
       );
     }
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: _tracks.length,
-      itemBuilder: (context, index) {
-        return TrackTile(track: _tracks[index], onTap: () => _play(index));
-      },
+    final player = _player;
+    if (player == null) return const SizedBox.shrink();
+    return CurrentTrackBuilder(
+      handler: player,
+      builder: (context, currentId) => ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        itemCount: _tracks.length,
+        itemBuilder: (context, index) {
+          final track = _tracks[index];
+          return TrackTile(
+            track: track,
+            isCurrent: track.id == currentId,
+            onTap: () => _play(index),
+          );
+        },
+      ),
     );
   }
 }
