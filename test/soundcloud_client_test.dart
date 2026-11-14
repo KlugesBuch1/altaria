@@ -11,30 +11,27 @@ const staleId = '0123456789abcdefghijklmnopqrstuv';
 const freshId = 'zyxwvutsrqponmlkjihgfedcba987654';
 
 Map<String, dynamic> trackJson(int id, {String title = 'A track'}) => {
-      'id': id,
-      'title': title,
-      'duration': 120000,
-      'full_duration': 120000,
-      'streamable': true,
-      'policy': 'ALLOW',
-      'user': {'id': 7, 'username': 'Artist'},
-      'artwork_url': 'https://i1.sndcdn.com/artworks-x-large.jpg',
-      'media': {
-        'transcodings': [
-          {
-            'url': 'https://api.test/media/$id/hls',
-            'preset': 'aac_160k',
-            'snipped': false,
-            'format': {'protocol': 'hls', 'mime_type': 'audio/mp4'},
-          },
-        ],
+  'id': id,
+  'title': title,
+  'duration': 120000,
+  'full_duration': 120000,
+  'streamable': true,
+  'policy': 'ALLOW',
+  'user': {'id': 7, 'username': 'Artist'},
+  'artwork_url': 'https://i1.sndcdn.com/artworks-x-large.jpg',
+  'media': {
+    'transcodings': [
+      {
+        'url': 'https://api.test/media/$id/hls',
+        'preset': 'aac_160k',
+        'snipped': false,
+        'format': {'protocol': 'hls', 'mime_type': 'audio/mp4'},
       },
-    };
+    ],
+  },
+};
 
-String searchBody({
-  String? nextHref,
-  List<Map<String, dynamic>>? collection,
-}) =>
+String searchBody({String? nextHref, List<Map<String, dynamic>>? collection}) =>
     jsonEncode({
       'collection': collection ?? [trackJson(1)],
       'total_results': 1,
@@ -140,8 +137,13 @@ void main() {
 
     await expectLater(
       client.searchTracks('x'),
-      throwsA(isA<SoundCloudException>()
-          .having((error) => error.status, 'status', 401)),
+      throwsA(
+        isA<SoundCloudException>().having(
+          (error) => error.status,
+          'status',
+          401,
+        ),
+      ),
     );
     expect(apiCalls, 1);
   });
@@ -286,6 +288,79 @@ void main() {
     await expectLater(
       client.resolveStream(track),
       throwsA(isA<UnplayableTrackException>()),
+    );
+  });
+
+  test('fails discovery when the assets carry no client id', () async {
+    final mock = MockClient((request) async {
+      if (request.url.host == 'player.test') {
+        return http.Response(
+          '<script src="https://assets.test/app.js"></script>',
+          200,
+        );
+      }
+      return http.Response('nothing here', 200);
+    });
+    final client = SoundCloudClient(
+      httpClient: mock,
+      baseUrl: 'https://api.test',
+      playerUrl: 'https://player.test/',
+      assetPrefix: 'https://assets.test/',
+    );
+
+    await expectLater(
+      client.searchTracks('x'),
+      throwsA(isA<SoundCloudException>()),
+    );
+  });
+
+  test('returns null after the last page without a request', () async {
+    var requests = 0;
+    final mock = MockClient((request) async {
+      requests++;
+      return http.Response('{}', 500);
+    });
+    final client = SoundCloudClient(
+      httpClient: mock,
+      baseUrl: 'https://api.test',
+      playerUrl: 'https://player.test/',
+      assetPrefix: 'https://assets.test/',
+    );
+    const page = Page<Track>(collection: [], nextHref: null);
+
+    expect(await client.nextPage(page, Track.fromJson), isNull);
+    expect(requests, 0);
+  });
+
+  test('surfaces a server error', () async {
+    final mock = MockClient((request) async {
+      if (request.url.host == 'player.test') {
+        return http.Response(
+          '<script src="https://assets.test/app.js"></script>',
+          200,
+        );
+      }
+      if (request.url.host == 'assets.test') {
+        return http.Response('client_id:"$freshId"', 200);
+      }
+      return http.Response('{}', 503);
+    });
+    final client = SoundCloudClient(
+      httpClient: mock,
+      baseUrl: 'https://api.test',
+      playerUrl: 'https://player.test/',
+      assetPrefix: 'https://assets.test/',
+    );
+
+    await expectLater(
+      client.searchTracks('x'),
+      throwsA(
+        isA<SoundCloudException>().having(
+          (error) => error.status,
+          'status',
+          503,
+        ),
+      ),
     );
   });
 }
