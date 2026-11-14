@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:altaria/data/soundcloud_client.dart';
 
 /// Hits the measured API the same way the app does. Run with `dart run tool/smoke.dart`.

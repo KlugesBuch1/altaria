@@ -7,11 +7,7 @@ import 'theme.dart';
 import 'ui/home_shell.dart';
 
 class AltariaApp extends StatelessWidget {
-  const AltariaApp({
-    super.key,
-    required this.api,
-    required this.player,
-  });
+  const AltariaApp({super.key, required this.api, required this.player});
 
   final SoundCloudClient api;
   final AltariaAudioHandler player;

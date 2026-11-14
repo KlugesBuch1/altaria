@@ -77,15 +77,12 @@ void main() {
       },
     });
 
-    expect(
-      track.playbackOrder.map((item) => item.url).toList(),
-      [
-        'https://api.test/progressive',
-        'https://api.test/160',
-        'https://api.test/96',
-        'https://api.test/abr',
-      ],
-    );
+    expect(track.playbackOrder.map((item) => item.url).toList(), [
+      'https://api.test/progressive',
+      'https://api.test/160',
+      'https://api.test/96',
+      'https://api.test/abr',
+    ]);
   });
 
   test('falls back to a snipped rendition and marks it as a preview', () {
@@ -155,8 +152,10 @@ void main() {
   });
 
   test('keeps artwork urls that have no known suffix', () {
-    expect(artworkAt('https://i1.sndcdn.com/artworks-x.jpg'),
-        'https://i1.sndcdn.com/artworks-x.jpg');
+    expect(
+      artworkAt('https://i1.sndcdn.com/artworks-x.jpg'),
+      'https://i1.sndcdn.com/artworks-x.jpg',
+    );
     expect(artworkAt(null), isNull);
   });
 }

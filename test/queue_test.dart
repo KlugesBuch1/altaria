@@ -7,7 +7,8 @@ Track track(int id) => Track.fromJson({'id': id, 'title': 'Track $id'});
 
 void main() {
   test('starts from the requested index and moves both ways', () {
-    final queue = Queue()..replace([track(1), track(2), track(3)], startIndex: 1);
+    final queue = Queue()
+      ..replace([track(1), track(2), track(3)], startIndex: 1);
 
     expect(queue.current?.id, 2);
     expect(queue.hasPrevious, isTrue);

@@ -25,7 +25,9 @@ class SoundCloudException implements Exception {
 }
 
 class UnplayableTrackException implements Exception {
-  const UnplayableTrackException([this.message = 'This track cannot be played']);
+  const UnplayableTrackException([
+    this.message = 'This track cannot be played',
+  ]);
 
   final String message;
 
@@ -44,9 +46,9 @@ class SoundCloudClient {
     String baseUrl = _defaultBaseUrl,
     this.playerUrl = _defaultPlayerUrl,
     this.assetPrefix = _defaultAssetPrefix,
-  })  : _http = httpClient ?? http.Client(),
-        _ownsHttp = httpClient == null,
-        _baseUrl = baseUrl.replaceFirst(RegExp(r'/$'), '');
+  }) : _http = httpClient ?? http.Client(),
+       _ownsHttp = httpClient == null,
+       _baseUrl = baseUrl.replaceFirst(RegExp(r'/$'), '');
 
   final http.Client _http;
   final bool _ownsHttp;
@@ -61,10 +63,12 @@ class SoundCloudClient {
   Future<String> get clientId async {
     final held = _clientId;
     if (held != null) return held;
-    _discovery ??= _discover().then((id) {
-      _clientId = id;
-      return id;
-    }).whenComplete(() => _discovery = null);
+    _discovery ??= _discover()
+        .then((id) {
+          _clientId = id;
+          return id;
+        })
+        .whenComplete(() => _discovery = null);
     return _discovery!;
   }
 
@@ -74,33 +78,34 @@ class SoundCloudClient {
   }
 
   Future<Page<Track>> searchTracks(String query, {int limit = 30}) async {
-    final json = await _getJson('/search/tracks', query: {
-      'q': query,
-      'limit': '$limit',
-    });
+    final json = await _getJson(
+      '/search/tracks',
+      query: {'q': query, 'limit': '$limit'},
+    );
     return Page.fromJson(json, Track.fromJson);
   }
 
   Future<Page<User>> searchUsers(String query, {int limit = 30}) async {
-    final json = await _getJson('/search/users', query: {
-      'q': query,
-      'limit': '$limit',
-    });
+    final json = await _getJson(
+      '/search/users',
+      query: {'q': query, 'limit': '$limit'},
+    );
     return Page.fromJson(json, User.fromJson);
   }
 
   Future<Page<Playlist>> searchPlaylists(String query, {int limit = 30}) async {
-    final json = await _getJson('/search/playlists', query: {
-      'q': query,
-      'limit': '$limit',
-    });
+    final json = await _getJson(
+      '/search/playlists',
+      query: {'q': query, 'limit': '$limit'},
+    );
     return Page.fromJson(json, Playlist.fromJson);
   }
 
   Future<Page<Track>> userTracks(int userId, {int limit = 50}) async {
-    final json = await _getJson('/users/$userId/tracks', query: {
-      'limit': '$limit',
-    });
+    final json = await _getJson(
+      '/users/$userId/tracks',
+      query: {'limit': '$limit'},
+    );
     return Page.fromJson(json, Track.fromJson);
   }
 
@@ -113,23 +118,20 @@ class SoundCloudClient {
     String kind = 'trending',
     String genre = 'soundcloud:genres:all-music',
   }) async {
-    final json = await _getJson('/charts', query: {
-      'kind': kind,
-      'genre': genre,
-      'limit': '50',
-    });
+    final json = await _getJson(
+      '/charts',
+      query: {'kind': kind, 'genre': genre, 'limit': '50'},
+    );
     return ChartPage.fromJson(json);
   }
 
-  Future<Page<T>?> nextPage<T>(
-    Page<T> page,
-    T Function(Json) parse,
-  ) async {
+  Future<Page<T>?> nextPage<T>(Page<T> page, T Function(Json) parse) async {
     final href = page.nextHref;
     if (href == null) return null;
     final parsed = Uri.parse(href);
-    final uri =
-        parsed.hasScheme ? parsed : Uri.parse(_baseUrl).resolveUri(parsed);
+    final uri = parsed.hasScheme
+        ? parsed
+        : Uri.parse(_baseUrl).resolveUri(parsed);
     final json = await _getJsonUri(uri);
     return Page.fromJson(json, parse);
   }
@@ -161,10 +163,7 @@ class SoundCloudClient {
     );
   }
 
-  Future<Json> _getJson(
-    String path, {
-    Map<String, String> query = const {},
-  }) {
+  Future<Json> _getJson(String path, {Map<String, String> query = const {}}) {
     return _requestJson((id) {
       final uri = Uri.parse('$_baseUrl$path');
       return _withClientId(
@@ -213,10 +212,12 @@ class SoundCloudClient {
   Future<String?> _refreshClientId(String stale) async {
     final current = _clientId;
     if (current != null && current != stale) return current;
-    _refresh ??= _discover().then((id) {
-      _clientId = id;
-      return id;
-    }).whenComplete(() => _refresh = null);
+    _refresh ??= _discover()
+        .then((id) {
+          _clientId = id;
+          return id;
+        })
+        .whenComplete(() => _refresh = null);
     final fresh = await _refresh!;
     return fresh == stale ? null : fresh;
   }

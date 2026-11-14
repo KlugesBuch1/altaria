@@ -13,11 +13,8 @@ class Wordmark extends StatelessWidget {
       children: [
         Text(
           'altaria',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: bone,
-                fontSize: 26,
-                letterSpacing: -0.8,
-              ),
+          style: Theme.of(context).textTheme.headlineSmall
+              ?.copyWith(color: bone, fontSize: 26, letterSpacing: -0.8),
         ),
       ],
     );
