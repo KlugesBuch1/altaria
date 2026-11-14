@@ -1,0 +1,45 @@
+name: ios
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unsigned:
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.50.0'
+          cache: true
+
+      - name: Resolve packages
+        run: flutter pub get
+
+      - name: Build without codesigning
+        run: flutter build ios --release --no-codesign
+
+      - name: Pack the unsigned IPA
+        run: |
+          set -euo pipefail
+          rm -rf build/ios/ipa
+          mkdir -p build/ios/ipa/Payload
+          cp -R build/ios/iphoneos/Runner.app build/ios/ipa/Payload/
+          cd build/ios/ipa
+          /usr/bin/ditto -c -k --sequesterRsrc --keepParent Payload altaria-unsigned.ipa
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: altaria-ios-unsigned
+          path: build/ios/ipa/altaria-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
