@@ -109,7 +109,8 @@ On the Android 15 emulator, with the release APK:
 
 Headphone unplug is delegated to `just_audio`'s becoming-noisy receiver. The
 receiver is registered; there was no physical headset to unplug on the emulator.
-iOS was not compiled or installed.
+iOS was not compiled or installed. The raw state excerpts and the lock-screen
+capture are in [docs/verification.md](docs/verification.md).
 
 ## Layout
 
