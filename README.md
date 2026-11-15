@@ -2,11 +2,15 @@
 
 Ad-free SoundCloud listening and strength training, in one app.
 
-**v1.0.0** · Android · local-first training · [release notes](CHANGELOG.md)
+**v1.0.0** · Android APK · iOS IPA · local-first training ·
+[release notes](CHANGELOG.md)
 
 Search and play SoundCloud without an account, then switch to a local training
 log built for one hand and no connection. The last mode is remembered, the mini
 player stays above the Train tabs, and music keeps playing through a workout.
+
+The Android APK installs directly. iOS ships as an unsigned IPA for sideloading,
+and that build has been installed and run on a physical iPhone.
 
 <p align="center">
   <img src="docs/loveless.png" width="760" alt="The Loveless album by My Bloody Valentine">
@@ -107,7 +111,8 @@ flutter build ios --release --no-codesign
 
 The workflow packs `Payload/Runner.app` into `altaria-unsigned.ipa` and uploads
 it as the `altaria-ios-unsigned` artifact. AltStore, SideStore and Sideloadly
-sign an unsigned IPA with the Apple ID at install time.
+sign an unsigned IPA with the Apple ID at install time. That unsigned IPA has
+been sideloaded and run on a physical iPhone.
 
 If these repository secrets exist, a second job also exports a signed IPA as
 `altaria-ios-signed`:
@@ -121,11 +126,10 @@ If these repository secrets exist, a second job also exports a signed IPA as
 | `IOS_SIGNING_IDENTITY` | optional, defaults to `Apple Development` |
 | `IOS_EXPORT_METHOD` | optional, defaults to `development` |
 
-The signed path has not been executed: there is no Mac and no remote for this
-repository during development. The unsigned workflow has not run either. Both
-are written against Flutter 3.50 and the current Apple toolchain, not against a
-local run. New plugins are configured in the iOS project, but the iOS build
-still needs to be exercised in CI or on a Mac.
+The Apple-signed export is the only iOS path that has not been run. It is
+skipped while the secrets above are absent, and there is no local Mac, so every
+iOS build comes from the macOS runner. The unsigned IPA is the tested iOS
+download.
 
 ### Release artifacts
 
@@ -214,8 +218,9 @@ There is no cloud sync.
   while the separate rest channel fired.
 - JSON backup exported, local data reset, import restored the same routines,
   workouts, settings, body metric and photo. CSV export opened the share sheet.
-- iOS was not compiled locally; the CI workflow and native plugin configuration
-  are committed.
+- The unsigned iOS IPA built by the `ios` workflow was sideloaded and run on a
+  physical iPhone.
+- The Apple-signed iOS export has not been run; it requires the secrets above.
 
 The functional checks, commands and system excerpts are in
 [docs/verification.md](docs/verification.md). That log was captured on the same

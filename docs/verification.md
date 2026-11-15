@@ -4,7 +4,9 @@ Verified on 2026-11-14 on an Android 15 emulator (`sdk_gphone64_x86_64`, API 35)
 with release APK **2.0.0+2** (`55.0 MB`). That source is released as
 **1.0.0+1**; only the version metadata in `pubspec.yaml` changed after this log
 was captured, and the release workflow rebuilds the APK from the same tree. The
-package is `dev.klugesbuch.altaria`. Commands used are listed with the evidence.
+package is `dev.klugesbuch.altaria`. The Android checks below are from that run;
+the iOS sideload check was added on 2026-11-15. Commands used are listed with
+the evidence.
 
 ## Build and automated checks
 
@@ -207,12 +209,22 @@ Warm-up sets, the 1RM table, movements, history calendar and per-exercise
 charts opened and rendered from local data. No tool or screen has a purchase
 gate.
 
+## iOS sideload
+
+The `ios` workflow completed on `macos-15` and uploaded the
+`altaria-ios-unsigned` artifact. That unsigned IPA was sideloaded onto a
+physical iPhone, where it installed and ran. This covers the unsigned iOS build,
+packaging and install path. The Apple-signed export job is skipped without the
+signing secrets and has not been exercised.
+
 ## What was not run
 
-- iOS was not compiled or installed. There is no Mac or remote in this working
-  environment. The iOS workflow and native notification delegate configuration
-  are committed but were not executed.
-- The signed IPA workflow remains unexecuted.
+- The Apple-signed IPA export was not run; it is skipped while the signing
+  secrets are absent. The unsigned IPA was sideloaded and run on a physical
+  iPhone, so the unsigned build and install path are covered.
+- The iOS check did not repeat the full Android matrix above (offline fresh
+  install, backup/import, denied permissions, lock-screen controls); Android
+  remains the detailed feature log.
 - A physical headset unplug was not tested; the becoming-noisy receiver remains
   registered from the original implementation.
 - This build avoids exact-alarm permission. If Android kills the training

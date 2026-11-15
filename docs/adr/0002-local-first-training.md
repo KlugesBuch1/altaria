@@ -97,3 +97,9 @@ the Windows development machine.
 Apple Watch, Wear OS, HealthKit, Health Connect, widgets, Live Activities and
 cloud sync are out of scope. Offline music and user-token login remain out;
 music scope is unchanged. No purchase prompt, IAP, trial or account exists.
+
+## Update (2026-11-15)
+
+The unsigned iOS IPA has since been sideloaded and run on a physical iPhone.
+iOS builds still come from the macOS CI runner, and the Apple-signed export
+remains unexercised.

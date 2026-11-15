@@ -34,4 +34,5 @@ First public release.
 ### Release
 
 - Android release APK built with Flutter 3.50 / Dart 3.14.
-- Unsigned iOS IPA produced by the GitHub Actions workflow when it runs.
+- Unsigned iOS IPA built in CI, sideloaded and run on a physical iPhone. The
+  Apple-signed export remains untested.
