@@ -2,11 +2,30 @@
 
 Ad-free SoundCloud listening and strength training, in one app.
 
+**v1.0.0** · Android · local-first training · [release notes](CHANGELOG.md)
+
 Search and play SoundCloud without an account, then switch to a local training
 log built for one hand and no connection. The last mode is remembered, the mini
 player stays above the Train tabs, and music keeps playing through a workout.
 
-![altaria in Train mode](docs/train-home.png)
+<p align="center">
+  <img src="docs/loveless.png" width="760" alt="The Loveless album by My Bloody Valentine">
+</p>
+<p align="center">
+  <sub>My Bloody Valentine's <em>Loveless</em>, straight from SoundCloud. No account needed.</sub>
+</p>
+
+## Screenshots
+
+| Listen | Now playing |
+| --- | --- |
+| <img src="docs/listen.png" width="330" alt="Search results for Loveless by My Bloody Valentine, with the mini player playing"> | <img src="docs/player.png" width="330" alt="Now playing from Loveless by My Bloody Valentine"> |
+| **Listen.** Search for *Loveless* by My Bloody Valentine and keep it playing above the tabs. | **Now playing from *Loveless*.** Artwork, scrubber, transport and the queue in one screen. |
+
+| Train | Session |
+| --- | --- |
+| <img src="docs/train-home.png" width="330" alt="The Train workout tab with the mini player above the tabs"> | <img src="docs/train-session.png" width="330" alt="A workout with three completed sets and the rest timer running"> |
+| **Train.** Start empty or from a routine. The mini player stays above the bottom tabs. | **Session.** Three sets logged and the rest timer running; music keeps playing. |
 
 ## Listen
 
@@ -41,13 +60,21 @@ player stays above the Train tabs, and music keeps playing through a workout.
 - kg/lb display, default rest, plate setup, keep-screen-awake, notification
   permission and free local backups.
 
+<p align="center">
+  <img src="docs/train-progress.png" width="330" alt="Progress with records, body data and progress photos">
+  <br>
+  <sub>Progress: records, body data and photos, stored on the device.</sub>
+</p>
+
 Training is free and works fully offline. There is no account, paywall, IAP,
 trial, ad or network requirement in the gym. The first launch does not wait for
 SoundCloud discovery to open Train.
 
 ## Build
 
-Flutter 3.50 (Dart 3.14), Android SDK 36 and JDK 17 were used here.
+The current release is **1.0.0+1**. Flutter 3.50 (Dart 3.14), Android SDK 36
+and JDK 17 were used here. The version lives in `pubspec.yaml`; the release
+notes are in [CHANGELOG.md](CHANGELOG.md).
 
 ### Android
 
@@ -99,6 +126,13 @@ repository during development. The unsigned workflow has not run either. Both
 are written against Flutter 3.50 and the current Apple toolchain, not against a
 local run. New plugins are configured in the iOS project, but the iOS build
 still needs to be exercised in CI or on a Mac.
+
+### Release artifacts
+
+`android.yml` uploads the APK as `altaria-android-apk`. `ios.yml` uploads the
+unsigned IPA as `altaria-ios-unsigned`, plus `altaria-ios-signed` when the Apple
+secrets above are present. Both workflows run on `main`, on pull requests and on
+manual dispatch.
 
 ## Architecture
 
@@ -172,7 +206,7 @@ There is no cloud sync.
 - `flutter test`: 52 tests, all passing. They cover the old music behavior,
   calculators, repository persistence/import, set logging, routine editing and
   the mode switch.
-- Release APK: 55.0 MB, installed on an Android 15 emulator.
+- Release APK **1.0.0+1** installed on an Android 15 emulator.
 - Airplane-mode fresh install: created a custom movement and routine, logged
   three sets, saw the rest alert, finished, and found History and a PR. After
   force-stop/relaunch the SQLite rows were still there.
@@ -183,9 +217,10 @@ There is no cloud sync.
 - iOS was not compiled locally; the CI workflow and native plugin configuration
   are committed.
 
-The commands, system excerpts and screenshots are in
-[docs/verification.md](docs/verification.md). The training architecture and
-deliberate cuts are recorded in
+The functional checks, commands and system excerpts are in
+[docs/verification.md](docs/verification.md). That log was captured on the same
+source that ships as 1.0.0+1; before the release version was set, the test APK
+reported 2.0.0+2. The training architecture and deliberate cuts are recorded in
 [ADR 0002](docs/adr/0002-local-first-training.md). The original music decisions
 remain in [ADR 0001](docs/adr/0001-dart-api-client.md).
 

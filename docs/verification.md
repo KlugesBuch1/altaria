@@ -1,8 +1,10 @@
 # Verification
 
 Verified on 2026-11-14 on an Android 15 emulator (`sdk_gphone64_x86_64`, API 35)
-with release APK **2.0.0+2** (`55.0 MB`). The package is
-`dev.klugesbuch.altaria`. Commands used are listed with the evidence.
+with release APK **2.0.0+2** (`55.0 MB`). That source is released as
+**1.0.0+1**; only the version metadata in `pubspec.yaml` changed after this log
+was captured, and the release workflow rebuilds the APK from the same tree. The
+package is `dev.klugesbuch.altaria`. Commands used are listed with the evidence.
 
 ## Build and automated checks
 
@@ -50,7 +52,7 @@ SoundCloud discovery. The flow performed on the release APK was:
 6. Opened History and saw the finished session; Progress showed the PR card
    with heaviest, estimated 1RM and set volume.
 
-![Three sets logged offline, with the rest alert](train-session.png)
+![Three sets logged offline, with the rest timer running](train-session.png)
 
 ![History after the offline session](train-history.png)
 
