@@ -10,7 +10,7 @@ player stays above the Train tabs, and music keeps playing through a workout.
 
 ## Listen
 
-- Search tracks, sets and artists, with pagination and deduplication.
+- Search tracks, playlists and artists, with pagination and deduplication.
 - Browse the trending charts.
 - Queue tracks, move next and previous, seek, and see elapsed and total time.
 - Keep playing in the background with lock-screen artwork and controls.

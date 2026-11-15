@@ -245,7 +245,7 @@ class _SearchScreenState extends State<SearchScreen> {
               _search(value.trim());
             },
             decoration: InputDecoration(
-              hintText: 'Search tracks, sets and artists',
+              hintText: 'Search tracks, playlists and artists',
               prefixIcon: const Icon(Icons.search_rounded, color: rose),
               suffixIcon: hasText
                   ? IconButton(
@@ -272,7 +272,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 const SizedBox(width: 8),
                 _KindChip(
-                  label: 'Sets',
+                  label: 'Playlists',
                   selected: _kind == SearchKind.playlists,
                   onTap: () => _setKind(SearchKind.playlists),
                 ),
@@ -362,7 +362,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _playlistBody() {
     if (_playlists.isEmpty) {
-      return _EmptyState(query: _query, noun: 'sets');
+      return _EmptyState(query: _query, noun: 'playlists');
     }
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 120),

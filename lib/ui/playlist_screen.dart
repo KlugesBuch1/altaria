@@ -56,7 +56,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        _error = 'Could not load this set.';
+        _error = 'Could not load this playlist.';
         _loading = false;
       });
     }
@@ -108,7 +108,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          playlist.isAlbum ? 'ALBUM' : 'SET',
+                          playlist.isAlbum ? 'ALBUM' : 'PLAYLIST',
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: muted,
                           ),
@@ -174,7 +174,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     }
     if (_tracks.isEmpty) {
       return const Center(
-        child: Text('This set has no tracks.', style: TextStyle(color: muted)),
+        child: Text(
+          'This playlist has no tracks.',
+          style: TextStyle(color: muted),
+        ),
       );
     }
     final player = _player;
