@@ -193,15 +193,6 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  void _useSuggestion(String query) {
-    _controller.text = query;
-    _controller.selection = TextSelection.collapsed(offset: query.length);
-    if (_kind != SearchKind.tracks) {
-      _kind = SearchKind.tracks;
-    }
-    _search(query);
-  }
-
   Future<void> _play(int index) async {
     final player = _player;
     if (player == null || index < 0 || index >= _tracks.length) return;
@@ -313,7 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _body(bool hasText) {
     if (!hasText && _query.isEmpty) {
-      return _SearchIntro(onSuggestion: _useSuggestion);
+      return const _SearchIntro();
     }
     if (_searching && _resultCount == 0) {
       return const Center(child: CircularProgressIndicator());
@@ -439,9 +430,7 @@ class _KindChip extends StatelessWidget {
 }
 
 class _SearchIntro extends StatelessWidget {
-  const _SearchIntro({required this.onSuggestion});
-
-  final ValueChanged<String> onSuggestion;
+  const _SearchIntro();
 
   @override
   Widget build(BuildContext context) {
@@ -453,37 +442,11 @@ class _SearchIntro extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           Text(
-            'Find something\nto keep.',
+            'Search\nthe catalogue.',
             style: theme.textTheme.displaySmall?.copyWith(
               height: 1.08,
               color: cream,
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Search the public catalogue. No account, no feed, no ads.',
-            style: theme.textTheme.bodyMedium?.copyWith(color: muted),
-          ),
-          const SizedBox(height: 28),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              for (final suggestion in const [
-                'beat tape',
-                'ambient',
-                'jazz',
-                'lofi',
-                'field recording',
-              ])
-                ActionChip(
-                  label: Text(suggestion),
-                  onPressed: () => onSuggestion(suggestion),
-                  backgroundColor: panel,
-                  side: const BorderSide(color: Color(0xFF3D2421)),
-                  labelStyle: theme.textTheme.bodySmall?.copyWith(color: cream),
-                ),
-            ],
           ),
         ],
       ),
