@@ -226,13 +226,14 @@ void main() {
     });
   });
 
-  test('the seeded catalogue has 150 or more unique movements', () {
+  test('the seeded catalogue has 200 or more unique movements', () {
     final names = seedExercises.map((exercise) => exercise.name.toLowerCase());
-    expect(seedExercises.length, greaterThanOrEqualTo(150));
+    expect(seedExercises.length, greaterThanOrEqualTo(200));
     expect(names.toSet(), hasLength(seedExercises.length));
     expect(
       seedExercises.every((exercise) => exercise.cues.trim().isNotEmpty),
       isTrue,
     );
+    expect(names, contains('incline chest press'));
   });
 }

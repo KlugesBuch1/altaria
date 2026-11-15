@@ -188,7 +188,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                 controller: _search,
                 onChanged: (value) => setState(() => _query = value),
                 decoration: InputDecoration(
-                  hintText: 'Search 160+ movements',
+                  hintText: 'Search 200+ movements',
                   prefixIcon: const Icon(Icons.search_rounded, color: frost),
                   suffixIcon: _query.isEmpty
                       ? null

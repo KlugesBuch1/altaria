@@ -88,7 +88,7 @@ the Windows development machine.
 - Import is destructive by design; the UI asks for confirmation first.
 - Rest alerts can be late if Android kills the process and batches the scheduled
   inexact alarm. While the app runs, the timer posts its own alert.
-- The 160-movement seed is part of the repository, not downloaded.
+- The 200-movement seed is part of the repository, not downloaded.
 - iOS compilation still needs CI or a Mac; local Android verification cannot
   prove the iOS native build.
 

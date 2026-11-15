@@ -19,7 +19,7 @@ player stays above the Train tabs, and music keeps playing through a workout.
 
 ## Train
 
-- 160 seeded movements with muscle group, equipment and original cues.
+- 200 seeded movements with muscle group, equipment and original cues.
 - Search and filter the library; add, edit and delete custom movements.
 - Unlimited routines with ordered exercises, target sets and reps, target
   weight, per-exercise rest, notes and superset groups. Duplicate or delete a
@@ -122,7 +122,7 @@ schema has numbered migrations and a `schema_migrations` table. Version 1
 contains exercises, routines and their targets, workouts, workout sets, body
 metrics, progress photos and settings. The repository is the only writer.
 
-The 160-movement catalogue is seeded with `INSERT OR IGNORE` inside one batch,
+The 200-movement catalogue is seeded with `INSERT OR IGNORE` inside one batch,
 keyed by a case-insensitive unique name. Seeding runs on every open and is
 idempotent; custom movements survive it. Built-in movements cannot be edited.
 Deleting a custom movement archives it so history keeps working while the
