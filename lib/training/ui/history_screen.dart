@@ -74,8 +74,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
           eyebrow: 'Train',
           title: 'History',
           subtitle: history.isEmpty
-              ? 'Every session lives only on this device.'
-              : '${history.length} ${history.length == 1 ? 'session' : 'sessions'} logged. All local.',
+              ? 'Finished sessions appear here.'
+              : '${history.length} ${history.length == 1 ? 'session' : 'sessions'} logged.',
           trailing: _ViewToggle(
             calendar: _calendar,
             onList: () => setState(() => _calendar = false),

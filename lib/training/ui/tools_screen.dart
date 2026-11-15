@@ -47,7 +47,7 @@ class ToolsScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
         children: [
           Text(
-            'Four quiet tools. No account, no gate.',
+            'Calculators and the movement library.',
             style: Theme.of(context).textTheme.bodyMedium
                 ?.copyWith(color: muted),
           ),
@@ -126,12 +126,6 @@ class ToolsScreen extends StatelessWidget {
                 MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
               ),
             ),
-          ),
-          const SizedBox(height: 22),
-          Text(
-            'Every tool here is free and offline. Local backups replace cloud sync.',
-            style: Theme.of(context).textTheme.bodySmall
-                ?.copyWith(color: muted, height: 1.4),
           ),
         ],
       ),

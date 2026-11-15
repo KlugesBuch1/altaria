@@ -169,7 +169,7 @@ class _ExerciseEditorScreenState extends State<ExerciseEditorScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Custom movements stay on this device and work offline.',
+              'Custom movements stay on this device.',
               style: Theme.of(context).textTheme.bodySmall
                   ?.copyWith(color: muted),
             ),

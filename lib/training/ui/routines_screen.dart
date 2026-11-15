@@ -119,7 +119,7 @@ class _RoutinesScreenState extends State<RoutinesScreen> {
         TrainingHeader(
           eyebrow: 'Train',
           title: 'Routines',
-          subtitle: 'Unlimited, local, and yours. No account in the way.',
+          subtitle: 'Saved order, targets, rest and supersets.',
           trailing: IconButton.filledTonal(
             key: const Key('create-routine'),
             tooltip: 'New routine',
@@ -199,11 +199,6 @@ class _RoutinesScreenState extends State<RoutinesScreen> {
             label: const Text('New routine'),
           ),
         ],
-        const SizedBox(height: 20),
-        Text(
-          'Routines can be edited, duplicated and deleted without a limit.',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: muted),
-        ),
       ],
     );
   }

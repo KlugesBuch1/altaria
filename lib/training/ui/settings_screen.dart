@@ -493,8 +493,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Everything is local. Export a full JSON backup or a CSV of '
-                  'finished workouts through the share sheet.',
+                  'Export a full JSON backup or a CSV of finished workouts '
+                  'through the share sheet.',
                   style: Theme.of(context).textTheme.bodySmall
                       ?.copyWith(color: muted, height: 1.4),
                 ),
@@ -554,12 +554,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
               ],
             ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'No account. No cloud sync. No feature behind a purchase.',
-            style: Theme.of(context).textTheme.bodySmall
-                ?.copyWith(color: muted),
           ),
         ],
       ),

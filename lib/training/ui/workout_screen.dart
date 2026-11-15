@@ -142,7 +142,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         TrainingHeader(
           eyebrow: 'Train',
           title: 'Workout',
-          subtitle: 'Log on your phone, offline, with or without music.',
+          subtitle: 'Start a session and log each set.',
           trailing: IconButton.filledTonal(
             tooltip: 'Settings',
             onPressed: () => _push(const SettingsScreen()),
@@ -342,12 +342,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             ),
           ),
         ],
-        const SizedBox(height: 22),
-        Text(
-          'Training is free and fully offline. Music is optional and always keeps playing.',
-          style: Theme.of(context).textTheme.bodySmall
-              ?.copyWith(color: muted, height: 1.4),
-        ),
       ],
     );
   }

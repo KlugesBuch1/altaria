@@ -163,7 +163,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         const TrainingHeader(
           eyebrow: 'Train',
           title: 'Progress',
-          subtitle: 'Records, body data and photos. Stored on your device.',
+          subtitle: 'Records, body data and photos.',
         ),
         if (store.history.isNotEmpty) ...[
           const SizedBox(height: 18),
@@ -246,7 +246,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             title: 'No body data yet',
             message:
                 'Weight, body fat and tape measurements are optional. '
-                'They stay local and export with your backup.',
+                'They export with your backup.',
             action: FilledButton.tonal(
               onPressed: _addMeasurement,
               child: const Text('Add a measurement'),
@@ -341,8 +341,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Optional. Pick a photo from your device; it is copied into '
-                    'the local backup and never uploaded.',
+                    'Optional. Photos are copied into the local backup and '
+                    'never uploaded.',
                     style: Theme.of(context).textTheme.bodySmall
                         ?.copyWith(color: muted, height: 1.35),
                   ),
@@ -405,7 +405,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
           ),
         const SizedBox(height: 22),
         Text(
-          'No cloud sync and no purchase gates. Export everything from Settings.',
+          'Backups and CSV export live in Settings.',
           style: Theme.of(context).textTheme.bodySmall
               ?.copyWith(color: muted, height: 1.4),
         ),
