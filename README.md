@@ -2,8 +2,12 @@
 
 Ad-free SoundCloud listening and strength training, in one app.
 
-**v1.0.0** · Android APK · iOS IPA · local-first training ·
-[release notes](CHANGELOG.md)
+**v1.0.0** · [Android APK][apk] · [iOS IPA][ipa] · [release notes][notes] ·
+free, MIT licensed, no account
+
+[apk]: https://github.com/KlugesBuch1/altaria/releases/latest/download/altaria-1.0.0.apk
+[ipa]: https://github.com/KlugesBuch1/altaria/releases/latest/download/altaria-1.0.0-unsigned.ipa
+[notes]: CHANGELOG.md
 
 Search and play SoundCloud without an account, then switch to a local training
 log built for one hand and no connection. The last mode is remembered, the mini
