@@ -85,7 +85,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
           ),
           const SizedBox(height: 6),
           Text(
-            'The public charts, straight from SoundCloud.',
+            'The public SoundCloud charts.',
             style: Theme.of(context).textTheme.bodyMedium
                 ?.copyWith(color: muted),
           ),
